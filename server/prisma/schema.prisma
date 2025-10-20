@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//Modelos
+model Usuario {
+  id Int @id @default(autoincrement())
+  correo String @unique
+  nombreCompleto String
+  ultimoLogin DateTime
+  rolId Int
+  rol Rol @relation(fields: [rolId], references: [id])
+  password String
+  activo Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  tickets Ticket[]
+  notificaciones Notificacion[]
+  //Campos de Tecnico
+  carga_Actual_Trabajo Int? 
+  estado_DisponibilidadId Int? 
+  estado EstadoDisponibilidad? @relation(fields: [estado_DisponibilidadId], references: [id])
+  especialidades Especialidad[]
+  asignaciones Asignacion[]
+}
+
+model Rol {
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  usuarios Usuario[]
+}
+
+model EstadoDisponibilidad{
+  id Int @id @default(autoincrement())
+  estado String 
+  usuarios Usuario[]
+}
+
+model SLA {
+  id Int @id @default(autoincrement())
+  tiempoRespuesta String
+  tiempoResolucion String
+  categorias Categoria[]
+}
+model Categoria{
+  id Int @id @default(autoincrement())
+  nombre String
+  slaId Int
+  sla SLA @relation(fields: [slaId],references: [id])
+  etiquetas Etiqueta[]
+  especialidades Especialidad[]
+  tickets Ticket[]
+  reglas ReglasAutoTriage[]
+}
+
+model Etiqueta{
+  id Int @id @default(autoincrement())
+  nombre String
+  categorias Categoria[]
+}
+
+model Especialidad{
+  id Int @id @default(autoincrement())
+  nombre String
+  descripción String @db.Text
+  activo Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  categorias Categoria[]
+  usuarios Usuario[]//relación de muchos a muchos con usuario(tecnico)
+  reglas ReglasAutoTriage[]
+}
+
+model Prioridad{
+  id Int @id @default(autoincrement())
+  prioridad String
+  tickets Ticket[]
+  reglas ReglasAutoTriage[]
+}
+
+model EstadoTicket{
+  id Int @id @default(autoincrement())
+  estado String
+  tickets Ticket[]
+  historias TicketHistorial[]
+}
+
+model Ticket{
+  id Int @id @default(autoincrement())
+  titulo String
+  descripcion String @db.Text
+  usuarioId Int 
+  usuario Usuario @relation(fields: [usuarioId],references: [id])
+  categoriaId Int 
+  categoria Categoria @relation(fields: [categoriaId],references: [id])
+  estadoId Int 
+  estadoTicket EstadoTicket @relation(fields: [estadoId],references: [id])
+  prioridadId Int
+  prioridad Prioridad @relation(fields: [prioridadId],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  fechaCierre DateTime? 
+  historias TicketHistorial[]
+  asignaciones Asignacion[]
+  valoraciones Valoracion[]
+}
+
+model TicketHistorial{
+  id Int @id @default(autoincrement())
+  ticketId Int
+  ticket Ticket @relation(fields: [ticketId],references: [id])
+  estado_AnteriorId Int
+  estadoA EstadoTicket @relation(fields: [estado_AnteriorId], references: [id])
+  updatedAt DateTime @default(now()) 
+  imagenes TicketImagen[]
+}
+
+
+model TicketImagen{
+  id Int @id @default(autoincrement())
+  ticketHId Int
+  ticketHistorial TicketHistorial @relation(fields: [ticketHId],references: [id])
+  ruta String @default("image-not-found.jpg")
+}
+
+model Asignacion{
+  id Int @id @default(autoincrement())
+  metodo String 
+  fechaAsignacion DateTime @default(now())
+  reglaId Int?
+  regla ReglasAutoTriage? @relation(fields: [reglaId], references: [id])
+  ticketId Int
+  ticket Ticket @relation(fields: [ticketId],references: [id])
+  //Relación con Tecnico
+  usuarioId Int 
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  observaciones String
+}
+
+model Evento{
+  id Int @id @default(autoincrement())
+  evento String
+  notificaciones Notificacion[]
+}
+
+model Notificacion{
+  id Int @id @default(autoincrement())
+  usuarioId Int 
+  usuario Usuario @relation(fields: [usuarioId],references: [id])
+  eventoId Int
+  evento Evento @relation(fields: [eventoId],references: [id])
+  estado String
+  fecha DateTime @default(now())
+}
+
+model Valoracion{
+  id Int @id @default(autoincrement())
+  ticketId Int
+  ticket Ticket @relation(fields: [ticketId],references: [id])
+  comentario String? @db.Text
+  valoracion Int
+  fecha DateTime @default(now())
+}
+
+model ReglasAutoTriage {
+id Int @id @default(autoincrement())
+nombre String 
+categoriaId Int
+categoria Categoria @relation(fields: [categoriaId], references: [id])
+prioridadId Int? 
+prioridad Prioridad? @relation(fields: [prioridadId], references: [id])
+especialidadId Int
+especialidad Especialidad @relation(fields: [especialidadId], references: [id])
+cargaMaximaTecnico Int? 
+ordenPrioridad Int
+activo Boolean @default(true)
+puntaje Decimal @db.Decimal(10, 2)
+createdAt DateTime @default(now())
+updatedAt DateTime @default(now()) @updatedAt
+asignaciones Asignacion[]
+}

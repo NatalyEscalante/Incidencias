@@ -1,0 +1,21 @@
+2025-10-18 05:00:08.236 error: 	natye--El criterios de búsqueda es requerido El criterios de búsqueda es requerido
+2025-10-18 05:01:05.958 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.usuario.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\appProyecto\server\source\controllers\ticketController.ts:20:55
+
+  17         
+  18 
+  19 // Obtener el usuario con su rol
+→ 20 const usuario = await this.prisma.usuario.findUnique({
+       where: {
+     +   id: Int
+       },
+       include: {
+         rol: true
+       }
+     })
+
+Argument `id` is missing.
+2025-10-18 05:01:10.461 error: 	natye--El criterios de búsqueda es requerido El criterios de búsqueda es requerido
+2025-10-18 05:02:59.172 error: 	natye--El criterios de búsqueda es requerido El criterios de búsqueda es requerido
+2025-10-18 05:03:45.658 error: 	natye--El criterios de búsqueda es requerido El criterios de búsqueda es requerido
