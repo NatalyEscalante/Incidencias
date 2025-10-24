@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.carousel {
+    width: 100vw;
+    height: 550px;
+    margin-left: calc(-50vw + 50%); 
+    position: relative;
+    left: 0;
+    overflow: hidden;
+}
+
+/* Items del carousel */
+.carousel .list .item {
+    width: 180px;
+    height: 250px;
+    position: absolute;
+    top: 75%;
+    transform: translateY(-70%);
+    left: 70%;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 100;
+    transition: 1s;
+}
+
+.carousel .list .item:nth-child(1),
+.carousel .list .item:nth-child(2) {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    border-radius: 0;
+    width: 100vw;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+
+.carousel .list .item:nth-child(3) {
+    left: 67%;
+}
+
+.carousel .list .item:nth-child(4) {
+    left: calc(67% + 200px);
+}
+
+.carousel .list .item:nth-child(5) {
+    left: calc(67% + 400px);
+}
+
+.carousel .list .item:nth-child(6) {
+    left: calc(67% + 600px);
+}
+
+.carousel .list .item:nth-child(n+7) {
+    left: calc(67% + 800px);
+    opacity: 0;
+}
+
+/* Contenido del carousel */
+.list .item .content {
+    position: absolute;
+    top: 50%;
+    left: 10vw;
+    transform: translateY(-50%);
+    width: 40vw;
+    max-width: 500px;
+    text-align: left;
+    color: #fff;
+    display: none;
+    padding: 20px;
+}
+
+.list .item:nth-child(2) .content {
+    display: block;
+}
+
+.content .title {
+    font-size: 60px;
+    text-transform: uppercase;
+    color: #006874; 
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.3s 1 forwards;
+    margin-bottom: 0.5rem;
+}
+
+.content .name {
+    font-size: 45px;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 3px 4px 4px  rgba(187, 237, 242, 0.404);
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.6s 1 forwards;
+    color: #3BACB6; 
+    margin-bottom: 0.5rem;
+}
+
+.content .des {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    margin-left: 2px;
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.9s 1 forwards;
+    background-color: #ffffff; 
+    padding: 15px; 
+    border-radius: 8px; 
+    display: inline-block;
+    max-width: 80%; 
+    color: #6b7280
+}
+
+.content .btn {
+    margin-left: 5px;
+    opacity: 0;
+    animation: animate 1s ease-in-out 1.2s 1 forwards;
+}
+
+.content .btn button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border: 2px solid #fff;
+    background-color: #2F8F9D; 
+    color: white;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+}
+
+.content .btn button:hover {
+    background-color: #3BACB6;
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(59, 172, 182, 0.35);
+}
+
+/* Animaciones */
+@keyframes animate {
+    from {
+        opacity: 0;
+        transform: translate(0, 100px);
+        filter: blur(33px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0);
+        filter: blur(0);
+    }
+}
+
+/* Controles de navegación */
+.arrows {
+    position: absolute;
+    top: 80%;
+    right: 10vw;
+    z-index: 100;
+    width: 300px;
+    max-width: 30%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.arrows button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2F8F9D;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: .5s;
+    cursor: pointer;
+}
+
+.arrows button:hover {
+    background-color: #3BACB6;
+    color: #fff;
+}
+
+/* Diseño Responsive */
+@media screen and (max-width: 999px) {
+    .list .item .content {
+        left: 5vw;
+        width: 50vw;
+    }
+
+    .content .title,
+    .content .name {
+        font-size: 50px;
+    }
+
+    .arrows {
+        right: 5vw;
+    }
+}
+
+@media screen and (max-width: 690px) {
+    .carousel {
+        height: 400px;
+    }
+
+    .list .item .content {
+        width: 80vw;
+        left: 10vw;
+    }
+
+    .content .title,
+    .content .name {
+        font-size: 35px;
+    }
+
+    .content .des {
+        font-size: 16px;
+    }
+
+    .content .btn button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .arrows {
+        top: 70%;
+        right: 10vw;
+    }
+}

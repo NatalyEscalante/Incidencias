@@ -1,0 +1,111 @@
+<mat-toolbar class="header primary-gradient">
+    <!-- Logo e icono del sistema a la izquierda -->
+    <div class="logo-section">
+        <button mat-icon-button class="example-header-image" matTooltip="Sistema de Tickets">
+        </button>
+        <span class="nav__logo">CARESYNC</span>
+    </div>
+
+    <!-- Navegación principal -->
+    <div class="nav-links desktop-nav">
+        <a mat-button routerLink="/home" class="nav-link">
+            Home
+        </a>
+
+        <a mat-button routerLink="/technicians" class="nav-link">
+            Technicians
+        </a>
+
+        <a mat-button routerLink="/tickets" class="nav-link">
+            Tickets
+        </a>
+
+        <!-- Maintenances -->
+        <button mat-button [matMenuTriggerFor]="maintenanceMenu" class="nav-link">
+            Maintenances
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+
+        <mat-menu #maintenanceMenu="matMenu" yPosition="below">
+            <button mat-menu-item>
+                <mat-icon>add_circle</mat-icon>
+                <span>Crear Ticket</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>assignment</mat-icon>
+                <span>Asignaciones</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>build_circle</mat-icon>
+                <span>Otro Mantenimiento</span>
+            </button>
+        </mat-menu>
+    </div>
+
+    <!-- Spacer -->
+    <div class="example-spacer"></div>
+
+    <!-- Menú hamburguesa para móvil -->
+    <button mat-icon-button class="mobile-menu-btn" [matMenuTriggerFor]="mobileMenu">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #mobileMenu="matMenu" class="mobile-nav-menu">
+        <button mat-menu-item>
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>engineering</mat-icon>
+            <span>Technicians</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>confirmation_number</mat-icon>
+            <span>Tickets</span>
+        </button>
+
+        <!-- Submenú para mantenimientos en móvil -->
+        <button mat-menu-item [matMenuTriggerFor]="mobileMaintenanceMenu">
+            <mat-icon>build</mat-icon>
+            <span>Maintenances</span>
+            <mat-icon>arrow_right</mat-icon>
+        </button>
+    </mat-menu>
+
+    <!-- Submenú móvil para mantenimientos -->
+    <mat-menu #mobileMaintenanceMenu="matMenu" class="mobile-submenu">
+        <button mat-menu-item>
+            <mat-icon>add_circle</mat-icon>
+            <span>Crear Ticket</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>assignment</mat-icon>
+            <span>Asignaciones</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>build_circle</mat-icon>
+            <span>Otro Mantenimiento</span>
+        </button>
+    </mat-menu>
+
+    <!--usuario -->
+    <div class="user-section">
+
+        <span class="small-text user-email">email</span>
+
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>person</mat-icon>
+        </button>
+
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>login</mat-icon>
+                <span>Login</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </div>
+</mat-toolbar>
