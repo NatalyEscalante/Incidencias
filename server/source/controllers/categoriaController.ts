@@ -45,7 +45,7 @@ export class categoriaController {
                         select:{
                             id: true,
                             nombre: true,
-                            descripción: true,
+                            descripcion: true,
                             activo: true,
                         }
                     },

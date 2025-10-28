@@ -9,7 +9,9 @@ import { HomeModule } from './home/home-module';
 import { CategoriaModule } from './categoria/categoria-module';
 import { TecnicoModule } from './tecnico/tecnico-module';
 import { TicketModule } from './ticket/ticket-module';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {  NgxSonnerToaster } from 'ngx-sonner'
+import { HttpErrorInterceptorService } from './share/interceptor/http-error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { provideHttpClient } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    NgxSonnerToaster,
     CoreModule,
     ShareModule,
     HomeModule,
@@ -27,7 +30,12 @@ import { provideHttpClient } from '@angular/common/http';
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: HttpErrorInterceptorService, 
+      multi:true
+    }
   ],
   bootstrap: [App]
 })

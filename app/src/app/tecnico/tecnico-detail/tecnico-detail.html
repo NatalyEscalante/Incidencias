@@ -1,0 +1,93 @@
+@if(datos()){
+<div class="categoria-detail-container">
+    <div class="header-section">
+        <button mat-icon-button class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="page-title">{{datos()?.nombreCompleto}}</h1>
+    </div>
+
+    <mat-card class="detail-card">
+        <mat-card-content>
+            <!-- Disponibilidad e Información en la misma sección -->
+            <div class="info-disponibilidad-section">
+                <!-- Información del Técnico -->
+                <div class="info-column">
+                    <h3>Información</h3>
+                    <div class="sla-metrics">
+                        <div class="sla-item">
+                            <mat-icon class="sla-icon">email</mat-icon>
+                            <div class="sla-info">
+                                <span class="sla-label">Correo</span>
+                                <span class="sla-value">{{datos()?.correo}}</span>
+                            </div>
+                        </div>
+                        <div class="sla-item">
+                            <mat-icon class="sla-icon">work</mat-icon>
+                            <div class="sla-info">
+                                <span class="sla-label">Rol</span>
+                                <span class="sla-value">{{datos()?.rol?.nombre}}</span>
+                            </div>
+                        </div>
+                        <div class="sla-item">
+                            <mat-icon class="sla-icon">assignment</mat-icon>
+                            <div class="sla-info">
+                                <span class="sla-label">Carga de Trabajo</span>
+                                <span class="sla-value">{{datos()?.carga_Actual_Trabajo || 0}} tareas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disponibilidad -->
+                <div class="disponibilidad-column">
+                    <h3>Disponibilidad</h3>
+                    <div class="disponibilidad-container">
+                        <div class="disponibilidad-item" [class]="getEstadoClass(datos()?.estado?.estado)">
+                            <mat-icon class="disponibilidad-icon">
+                                {{getEstadoIcon(datos()?.estado?.estado)}}
+                            </mat-icon>
+                            <div class="disponibilidad-info">
+                                <span class="disponibilidad-label">Estado Actual</span>
+                                <span class="disponibilidad-value">{{datos()?.estado?.estado || 'No definido'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especialidades -->
+            <div class="list-section">
+                <h3>Especialidades</h3>
+                @if(datos()?.especialidades && datos()!.especialidades.length > 0){
+                <div class="especialidades-container">
+                    @for (especialidad of datos()?.especialidades; track $index) {
+                    <div class="especialidad-item">
+                        <mat-icon class="especialidad-icon">build</mat-icon>
+                        <div class="especialidad-info">
+                            <strong>{{especialidad.nombre}}</strong>
+                            <p>{{especialidad.descripcion}}</p>
+                        </div>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <p class="no-data">No hay especialidades asignadas</p>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+} @else {
+<div class="not-found">
+    <mat-card>
+        <mat-card-content class="home-card-content">
+            <mat-icon class="error-icon">error_outline</mat-icon>
+            <p class="mat-body text">Técnico no encontrado</p>
+            <button mat-raised-button color="primary" (click)="goBack()">
+                Volver a Técnicos
+            </button>
+        </mat-card-content>
+    </mat-card>
+</div>
+}
