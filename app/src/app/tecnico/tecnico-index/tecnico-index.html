@@ -1,0 +1,57 @@
+<div class="tecnicos-container">
+    <div class="header-section">
+        <h1 class="page-title">Listado de Técnicos</h1>
+    </div>
+
+    <div class="table-container">
+        @if(datos().length > 0){
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Activo</th>
+                        <th>Disponibildad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of datos(); track item.id) {
+                    <tr>
+                        <td>{{item.nombreCompleto}}</td>
+                        <td>{{item?.rol?.nombre}}</td>
+                        
+                        <td>
+                            @if(item.activo) {
+                                <span class="activo-text">Sí</span>
+                            } @else {
+                                <span class="inactivo-text">No</span>
+                            }
+                        </td>
+
+                        <td>
+                            <button class="btn btn-sm estado-btn" [class]="getEstadoClass(item.estado?.estado)" disabled>
+                                {{item.estado?.estado || 'No definido'}}
+                            </button>
+                        </td>
+
+                        <td class="acciones-cell">
+                            <button mat-icon-button style="color:#1c8390;" matTooltip="Ver Detalles" (click)="detalle(item.id)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        } @else {
+        <div class="no-data">
+            <mat-icon>group_off</mat-icon>
+            <p>No hay técnicos registrados</p>
+        </div>
+        }
+    </div>
+</div>

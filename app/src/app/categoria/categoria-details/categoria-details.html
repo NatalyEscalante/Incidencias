@@ -1,0 +1,84 @@
+@if(datos()){
+<div class="categoria-detail-container">
+    <div class="header-section">
+        <button mat-icon-button class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="page-title">{{datos()?.nombre}}</h1>
+    </div>
+
+    <mat-card class="detail-card">
+        <mat-card-content>
+
+
+            <!-- Etiquetas -->
+            <div class="list-section">
+                <h3>Etiquetas</h3>
+                @if(datos()?.etiquetas && datos()!.etiquetas.length > 0){
+                <div class="tags-container">
+                    @for (etiqueta of datos()?.etiquetas; track $index) {
+                    <span class="tag">{{etiqueta.nombre}}</span>
+                    }
+                </div>
+                } @else {
+                <p class="no-data">No hay etiquetas asignadas</p>
+                }
+            </div>
+
+            <!-- SLA -->
+            <div class="info-section">
+                <h3>Tiempos de Servicio (SLA)</h3>
+                <div class="sla-metrics">
+                    <div class="sla-item">
+                        <mat-icon class="sla-icon">schedule</mat-icon>
+                        <div class="sla-info">
+                            <span class="sla-label">Tiempo de Resolución</span>
+                            <span class="sla-value">{{formatTime(datos()?.sla?.tiempoResolucion)}}</span>
+                        </div>
+                    </div>
+                    <div class="sla-item">
+                        <mat-icon class="sla-icon">schedule</mat-icon>
+                        <div class="sla-info">
+                            <span class="sla-label">Tiempo de Respuesta</span>
+                            <span class="sla-value">{{formatTime(datos()?.sla?.tiempoRespuesta)}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Especialidades -->
+            <div class="list-section">
+                <h3>Especialidades</h3>
+                @if(datos()?.especialidades && datos()!.especialidades.length > 0){
+                <div class="especialidades-container">
+                    @for (especialidad of datos()?.especialidades; track $index) {
+                    <div class="especialidad-item">
+                        <mat-icon class="especialidad-icon">build</mat-icon>
+                        <div class="especialidad-info">
+                            <strong>{{especialidad.nombre}}</strong>
+                            <p>{{especialidad.descripcion}}</p>
+                        </div>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <p class="no-data">No hay especialidades asignadas</p>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+} @else {
+<div class="not-found">
+    <mat-card>
+        <mat-card-content class="home-card-content">
+            <mat-icon class="error-icon">error_outline</mat-icon>
+            <p class="mat-body text">Categoría no encontrada</p>
+            <button mat-raised-button color="primary" (click)="goBack()">
+                Volver a Categorías
+            </button>
+        </mat-card-content>
+    </mat-card>
+</div>
+}

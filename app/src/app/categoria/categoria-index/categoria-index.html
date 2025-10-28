@@ -1,0 +1,34 @@
+<div class="categorias-container">
+    <h1 class="page-title">Categorías de Tickets</h1>
+    @if(datos().length > 0){
+    <mat-grid-list cols="2" rowHeight="200px" gutterSize="16px">
+        @for (item of datos(); track item.id) {
+        <mat-grid-tile>
+            <mat-card class="categoria-card" [style.background]="getRandomColor()">
+                <mat-card-header>
+                    <mat-card-title>{{item.nombre}}</mat-card-title>
+                </mat-card-header>
+                
+                <mat-card-content class="metrics">
+                    <div class="metric-item">
+                        <span class="metric-label">Tiempo Resolución:</span>
+                        <span class="metric-value">{{formatTime(item.sla.tiempoResolucion)}}</span>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <span class="metric-label">Tiempo Respuesta:</span>
+                        <span class="metric-value">{{formatTime(item.sla.tiempoRespuesta)}}</span>
+                    </div>
+                </mat-card-content>
+                
+                <mat-card-actions align="end">
+                    <button mat-button class="action-btn" (click)="detalle(item.id)">
+                        Ver Detalles
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        }
+    </mat-grid-list>
+    }
+</div>

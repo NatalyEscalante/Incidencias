@@ -8,12 +8,16 @@
 
     <!-- Navegación principal -->
     <div class="nav-links desktop-nav">
-        <a mat-button routerLink="/home" class="nav-link">
-            Home
+        <a mat-button [routerLink]="['/inicio']" routerLinkActive="active-link">
+            Inicio
         </a>
 
-        <a mat-button routerLink="/technicians" class="nav-link">
-            Technicians
+        <a mat-button [routerLink]=" ['/categoria']" routerLinkActive="active-link" class="nav-link" >
+            Categorias
+        </a> 
+
+        <a mat-button [routerLink]=" ['/tecnico']" routerLinkActive="active-link" class="nav-link">
+            Técnicos
         </a>
 
         <a mat-button routerLink="/tickets" class="nav-link">
