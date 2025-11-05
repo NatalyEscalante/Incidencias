@@ -10,10 +10,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './tecnico-detail.css'
 })
 export class TecnicoDetail {
- datos = signal<UsuarioModel | null>(null);
+  datos = signal<UsuarioModel | null>(null);
   private vjService = inject(TecnicoService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'))
@@ -34,36 +35,36 @@ export class TecnicoDetail {
   }
   getEstadoClass(estado: string | undefined): string {
     if (!estado) {
+      return 'default';
+    }
+
+    switch (estado.toLowerCase()) {
+      case 'disponible':
+        return 'disponible';
+      case 'ocupado':
+        return 'ocupado';
+      case 'ausente':
+        return 'ausente';
+      default:
         return 'default';
     }
-    
-    switch (estado.toLowerCase()) {
-        case 'disponible':
-            return 'disponible';
-        case 'ocupado':
-            return 'ocupado';
-        case 'ausente':
-            return 'ausente';
-        default:
-            return 'default';
-    }
-}
+  }
 
-getEstadoIcon(estado: string | undefined): string {
+  getEstadoIcon(estado: string | undefined): string {
     if (!estado) {
+      return 'help_outline';
+    }
+
+    switch (estado.toLowerCase()) {
+      case 'disponible':
+        return 'check_circle';
+      case 'ocupado':
+        return 'do_not_disturb';
+      case 'ausente':
+        return 'schedule';
+      default:
         return 'help_outline';
     }
-    
-    switch (estado.toLowerCase()) {
-        case 'disponible':
-            return 'check_circle';
-        case 'ocupado':
-            return 'do_not_disturb';
-        case 'ausente':
-            return 'schedule';
-        default:
-            return 'help_outline';
-    }
-}
+  }
 
 }
