@@ -48,6 +48,20 @@ export class BaseAPI<T extends BaseEntity> {
       options
     );
   }
+  
+/**
+   * Método GET para búsqueda con parámetros (usa el endpoint /search)
+   * Ejemplo: getSearch({ rol: 2 }) → GET http://localhost:3000/ticket/search?rol=2
+   */
+  getSearch(params: { [key: string]: any }): Observable<any> {
+    return this.http.get<any>(`${this.urlAPI}/${this.endpoint}/search`, {
+      params: params
+    });
+  }
+
+  getCustom<R>(id: number): Observable<R> {
+    return this.http.get<R>(`${this.urlAPI}/${this.endpoint}/${id}`);
+  }
   /**
      * Obtiene un elemento por su ID
      * Ejemplo: GET http://localhost:3000/productos/5

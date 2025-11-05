@@ -12,6 +12,7 @@ import { TicketModule } from './ticket/ticket-module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {  NgxSonnerToaster } from 'ngx-sonner'
 import { HttpErrorInterceptorService } from './share/interceptor/http-error-interceptor.service';
+import { AsignacionModule } from './asignacion/asignacion-module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { HttpErrorInterceptorService } from './share/interceptor/http-error-inte
     CategoriaModule,
     TecnicoModule,
     TicketModule,
-    AppRoutingModule
+    AsignacionModule,
+    AppRoutingModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

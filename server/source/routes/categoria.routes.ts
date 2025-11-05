@@ -8,7 +8,6 @@ export class CategoriaRoutes {
         router.get('/', controller.get)
         //GET localhost:3000/orden/3
         router.get('/:id',controller.getById)
-
         return router
     }
 }

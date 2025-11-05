@@ -1,0 +1,447 @@
+.asignaciones-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    color: #2F8F9D;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0;
+}
+
+.view-controls {
+    display: flex;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+}
+
+.view-btn {
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.view-btn.active {
+    background: #2F8F9D;
+    color: white;
+}
+
+/* Tablero */
+.board-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #f8f9fa;
+    border-bottom: 2px solid #EBEDF2;
+}
+
+.day-column {
+    padding: 1rem;
+    text-align: center;
+    border-right: 1px solid #dee2e6;
+}
+
+.day-column:last-child {
+    border-right: none;
+}
+
+.day-name {
+    font-weight: 600;
+    color: #2F8F9D;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.day-date {
+    color: #6c757d;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.board-content {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    min-height: 600px;
+}
+
+.board-content .day-column {
+    padding: 1rem;
+    min-height: 600px;
+    border-right: 1px solid #f0f0f0;
+    background: #fafbfc;
+}
+
+.board-content .day-column:last-child {
+    border-right: none;
+}
+
+/* Tarjetas de tickets */
+.ticket-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #2F8F9D;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.ticket-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Colores por urgencia */
+.ticket-card.alta {
+    border-left-color: #FF4D4D;
+    background: linear-gradient(to right, #fff, #ffe8e8);
+}
+
+.ticket-card.media {
+    border-left-color: #FFA726;
+    background: linear-gradient(to right, #fff, #fff3e0);
+}
+
+.ticket-card.baja {
+    border-left-color: #84E084;
+    background: linear-gradient(to right, #fff, #e8f5e8);
+}
+
+/* Header del ticket */
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.ticket-id {
+    font-weight: 600;
+    color: #2C3E50;
+    font-size: 0.9rem;
+}
+
+.ticket-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* Estados */
+.pendiente { background: #FFE8E8; color: #D32F2F; }
+.asignado { background: #E3F2FD; color: #1976D2; }
+.progreso { background: #FFF3E0; color: #F57C00; }
+.resuelto { background: #E8F5E8; color: #388E3C; }
+.cerrado { background: #F5F5F5; color: #616161; }
+.default { background: #F5F5F5; color: #757575; }
+
+/* Contenido del ticket */
+.ticket-content {
+    margin-bottom: 1rem;
+}
+
+.ticket-category {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.category-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.ticket-title {
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Barra de progreso SLA */
+.sla-progress {
+    margin-top: 0.75rem;
+}
+
+.sla-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.sla-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0.25rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #2F8F9D;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.progress-fill.critico { background: #FF4D4D; }
+.progress-fill.medio { background: #FFA726; }
+.progress-fill.normal { background: #84E084; }
+
+.sla-time {
+    font-size: 0.7rem;
+    color: #6c757d;
+    text-align: right;
+}
+
+/* Acciones */
+.ticket-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.action-btn mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Sin tickets por día */
+.no-tickets-day {
+    text-align: center;
+    color: #6c757d;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+}
+
+.no-tickets-day mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Sin tickets general */
+.no-tickets {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6c757d;
+}
+
+.no-data-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    color: #ddd;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .board-content {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .week-header {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .asignaciones-container {
+        padding: 1rem;
+    }
+    
+    .header-section {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .board-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .week-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+}
+
+/* Vista Mensual */
+.month-view {
+    background: white;
+}
+
+.month-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #f8f9fa;
+    border-bottom: 2px solid #EBEDF2;
+}
+
+.day-header {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    color: #2F8F9D;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 120px;
+    border: 1px solid #f0f0f0;
+}
+
+.month-day {
+    border: 1px solid #f0f0f0;
+    padding: 0.5rem;
+    background: white;
+    min-height: 120px;
+}
+
+.month-day.current-month {
+    background: #fafbfc;
+}
+
+.month-day:not(.current-month) {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.month-day.today {
+    background: #e3f2fd;
+    border: 2px solid #2196f3;
+}
+
+.month-day.weekend {
+    background: #fff9f9;
+}
+
+.day-number {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.day-tickets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    max-height: 85px;
+    overflow-y: auto;
+}
+
+/* Mini tarjetas para vista mensual */
+.mini-ticket {
+    background: white;
+    border-radius: 4px;
+    padding: 0.25rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-left: 3px solid #2F8F9D;
+    transition: all 0.2s ease;
+}
+
+.mini-ticket:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mini-ticket.alta { border-left-color: #FF4D4D; background: #ffe8e8; }
+.mini-ticket.media { border-left-color: #FFA726; background: #fff3e0; }
+.mini-ticket.baja { border-left-color: #84E084; background: #e8f5e8; }
+
+.mini-ticket-id {
+    font-weight: 600;
+    color: #2C3E50;
+}
+
+.mini-ticket-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #6c757d;
+}
+
+.mini-ticket-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 0.125rem;
+}
+
+/* Navegación de fecha */
+.date-navigation {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.current-period {
+    min-width: 200px;
+    text-align: center;
+}
+
+.period-text {
+    font-weight: 500;
+    color: #2F8F9D;
+}
+
+.view-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}

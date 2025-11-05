@@ -6,6 +6,7 @@ export class TicketoRoutes {
         const controller = new ticketController()
         //GET localhost:3000/orden/
         //router.get('/', controller.get),
+        //http://localhost:3000/ticket/search?rol=2
         router.get('/search',controller.get)
         router.get('/:id',controller.getById)
 

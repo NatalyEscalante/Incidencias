@@ -1,0 +1,165 @@
+<div class="asignaciones-container">
+    <!-- Header con controles -->
+    <div class="header-section">
+        <h1 class="page-title">Tablero de Asignaciones</h1>
+
+        <div class="view-controls">
+            <!-- Navegación de fecha -->
+            <div class="date-navigation">
+                <button mat-icon-button (click)="previousPeriod()">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+
+                <div class="current-period">
+                    @if (currentView() === 'semana') {
+                    <span class="period-text">{{getWeekRangeString()}}</span>
+                    } @else if (currentView() === 'mes') {
+                    <span class="period-text">{{getMonthYearString()}}</span>
+                    }
+                </div>
+
+                <button mat-icon-button (click)="nextPeriod()">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+
+            <!-- Selector de vista -->
+            <div class="view-selector">
+                <button mat-button class="view-btn" [class.active]="currentView() === 'semana'"
+                    (click)="setView('semana')">
+                    Semana
+                </button>
+                <button mat-button class="view-btn" [class.active]="currentView() === 'mes'" (click)="setView('mes')">
+                    Mes
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista SEMANA -->
+    @if (currentView() === 'semana' && datos().tickets && datos().tickets.length > 0) {
+    <div class="board-container week-view">
+        <!-- Encabezados de días de la semana -->
+        <div class="week-header">
+            @for (day of getWeekDays(); track day.key) {
+            <div class="day-column">
+                <div class="day-name">{{day.name}}</div>
+                <div class="day-date">{{day.dayNumber}}</div>
+            </div>
+            }
+        </div>
+
+        <!-- Contenido del tablero semanal -->
+        <div class="board-content week-content">
+            @for (day of getWeekDays(); track day.key) {
+            <div class="day-column">
+                @for (ticket of getTicketsForDay(day.date); track ticket.id) {
+                <div class="ticket-card" [class]="getUrgenciaClass(ticket)">
+
+                    <div class="ticket-header">
+                        <div class="ticket-id">#{{ticket.id}}</div>
+                        <div class="ticket-badge" [class]="getEstadoClass(ticket.estado)">
+                            {{ticket.estado}}
+                        </div>
+                    </div>
+
+                    <div class="ticket-content">
+                        <div class="ticket-category">
+                            <mat-icon class="category-icon">label</mat-icon>
+                            {{ticket.categoria || 'Sin categoría'}}
+                        </div>
+
+                        <div class="ticket-title">{{ticket.titulo}}</div>
+
+                        <div class="sla-progress">
+                            <div class="sla-label">
+                                <mat-icon class="sla-icon">schedule</mat-icon>
+                                <span>Tiempo SLA</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" [style.width.%]="getSLAProgress(ticket)"></div>
+                            </div>
+                            <div class="sla-time">{{getSLATimeRemaining(ticket)}}</div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-actions">
+                        <button mat-icon-button class="action-btn" matTooltip="Ver detalles"
+                            (click)="detalle(ticket.id)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                }
+
+                @if (getTicketsForDay(day.date).length === 0) {
+                <div class="no-tickets-day">
+                    <mat-icon>event_busy</mat-icon>
+                    <span>Sin tickets</span>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    <!-- Vista MES -->
+    @else if (currentView() === 'mes' && datos().tickets && datos().tickets.length > 0) {
+    <div class="board-container month-view">
+        <!-- días de la semana -->
+        <div class="month-header">
+            @for (dayName of ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']; track $index) {
+            <div class="day-header">{{dayName}}</div>
+            }
+        </div>
+
+        <!-- Grid del mes -->
+        <div class="month-grid">
+            @for (day of getMonthDays(); track day.key) {
+            <div class="month-day" [class.current-month]="day.isCurrentMonth" [class.today]="day.isToday"
+                [class.weekend]="day.isWeekend">
+
+                <div class="day-number">{{day.dayNumber}}</div>
+
+                <div class="day-tickets">
+                    @for (ticket of getTicketsForDay(day.date); track ticket.id) {
+                    <div class="mini-ticket" [class]="getUrgenciaClass(ticket)" (click)="detalle(ticket.id)"
+                        matTooltip="{{ticket.titulo}} - {{ticket.estado}}">
+                        <div class="mini-ticket-id">#{{ticket.id}}</div>
+                        <div class="mini-ticket-title">{{ticket.titulo}}</div>
+                        <div class="mini-ticket-badge" [class]="getEstadoClass(ticket.estado)"></div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+
+    @else if (currentView() === 'lista' && datos().tickets && datos().tickets.length > 0) {
+    <div class="list-view">
+
+        <mat-grid-list cols="1" rowHeight="160px" gutterSize="16px">
+            @for (ticket of datos().tickets; track ticket.id) {
+            <mat-grid-tile>
+                <mat-card class="ticket-card">
+
+                </mat-card>
+            </mat-grid-tile>
+            }
+        </mat-grid-list>
+    </div>
+    }
+
+    @else if (!datos().tickets || datos().tickets.length === 0) {
+    <div class="no-tickets">
+        <mat-icon class="no-data-icon">inbox</mat-icon>
+        <h3>No hay asignaciones disponibles</h3>
+        <p>No se encontraron tickets para mostrar en el tablero</p>
+    </div>
+    }
+</div>
