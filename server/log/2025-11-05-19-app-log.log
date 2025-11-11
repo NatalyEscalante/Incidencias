@@ -1,0 +1,27 @@
+2025-11-05 19:29:32.392 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.usuario.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\tecnicoController.ts:80:58
+
+  77 try {
+  78     const body = request.body;
+  79 
+→ 80     const newTecnico = await this.prisma.usuario.create(
+Unique constraint failed on the constraint: `Usuario_correo_key`
+2025-11-05 19:30:26.799 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.usuario.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\tecnicoController.ts:80:58
+
+  77 try {
+  78     const body = request.body;
+  79 
+→ 80     const newTecnico = await this.prisma.usuario.create(
+Unique constraint failed on the constraint: `Usuario_correo_key`
+2025-11-05 19:36:27.033 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.usuario.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\tecnicoController.ts:80:58
+
+  77 try {
+  78     const body = request.body;
+  79 
+→ 80     const newTecnico = await this.prisma.usuario.create(
+Unique constraint failed on the constraint: `Usuario_correo_key`
