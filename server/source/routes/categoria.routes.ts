@@ -8,6 +8,10 @@ export class CategoriaRoutes {
         router.get('/', controller.get)
         //GET localhost:3000/orden/3
         router.get('/:id',controller.getById)
+         //Crear 
+        router.post("/", controller.create);
+        //Actualizar 
+        router.put("/:id", controller.update);
 
         return router
     }

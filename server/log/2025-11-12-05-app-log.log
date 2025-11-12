@@ -1,0 +1,30 @@
+2025-11-12 05:57:08.055 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.usuario.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\tecnicoController.ts:80:58
+
+  77 try {
+  78     const body = request.body;
+  79 
+→ 80     const newTecnico = await this.prisma.usuario.create({
+           data: {
+             nombreCompleto: undefined,
+             ultimoLogin: new Date("2025-11-12T11:57:07.940Z"),
+             rolId: 3,
+             password: "$2b$10$1BaQqXuZYNLDAC42PY5fN.ufSOKjApmjkaZrQUYf7ms71PaS1mASO",
+             carga_Actual_Trabajo: 0,
+             estado_DisponibilidadId: undefined,
+             especialidades: {
+               connect: [
+                 {
+                   id: 2
+                 },
+                 {
+                   id: 4
+                 }
+               ]
+             },
+         +   correo: String
+           }
+         })
+
+Argument `correo` is missing.
