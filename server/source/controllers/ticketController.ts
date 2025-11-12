@@ -7,7 +7,7 @@ export class ticketController {
 
     get = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            // Obtener el usuarioId desde query parameters
+            // Obtener el usuarioId 
             const { rol } = request.query
             const usuarioId = parseInt(rol as string)
 
@@ -169,7 +169,7 @@ export class ticketController {
                 const fechaLimite = new Date(fechaInicio);
 
                 // Sumar las horas completas y los minutos
-                const horas = Math.floor(horasSLA);
+                const horas = Math.floor(horasSLA);//Math.floor(4.9)
                 const minutos = Math.round((horasSLA - horas) * 60);
 
                 fechaLimite.setHours(fechaLimite.getHours() + horas);

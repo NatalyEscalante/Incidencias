@@ -18,8 +18,8 @@
 
 .table-container {
     background: white;
-    border-radius: none ;
-    overflow: hidden; 
+    border-radius: none;
+    overflow: hidden;
 }
 
 .table {
@@ -35,7 +35,8 @@
     background: #f8f9fa;
     color: #6c757d;
     font-weight: 500;
-    font-size: 0.9rem;;
+    font-size: 0.9rem;
+    ;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     padding: 1rem;
@@ -48,7 +49,7 @@
     color: #6c757d;
     background: #f8f9fa;
     font-size: 0.9rem;
-    font-weight: 500; 
+    font-weight: 500;
 }
 
 /* Botones de estado */
@@ -59,23 +60,23 @@
     border: none;
     border-radius: 20px;
     font-size: 0.9rem;
-    font-weight: 500; 
+    font-weight: 500;
     cursor: default;
 }
 
 .estado-disponible {
-    background-color: #66BB6A;
-    color: white;
+    background: #d4edda;
+    color: #155724
 }
 
 .estado-ocupado {
-    background-color: #FF4D4D;
-    color: white;
+    background: #f8d7da;
+    color: #721c24;
 }
 
 .estado-ausente {
-    background-color: #FFD700;
-    color: #000;
+    background: #fff3cd;
+    color: #856404;
 }
 
 .estado-default {
@@ -85,7 +86,7 @@
 
 .estado-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
 }
 
@@ -127,24 +128,24 @@
     .tecnicos-container {
         padding: 1rem;
     }
-    
+
     .page-title {
         font-size: 2rem;
     }
-    
+
     .table-responsive {
         overflow-x: auto;
     }
-    
+
     .table {
         min-width: 600px;
     }
-    
+
     .table th,
     .table td {
         padding: 0.75rem 0.5rem;
     }
-    
+
     .estado-btn {
         min-width: 80px;
         padding: 0.4rem 0.8rem;

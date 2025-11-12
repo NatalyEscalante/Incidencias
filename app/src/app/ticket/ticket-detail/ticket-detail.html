@@ -1,0 +1,267 @@
+@if(datos()){
+<div class="ticket-detail-container">
+    <div class="header-section">
+        <button mat-icon-button class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="page-title">Detalle del Ticket</h1>
+    </div>
+
+    <div class="ticket-document">
+        <!-- Información Principal del Ticket -->
+        <section class="document-section">
+            <div class="section-header">
+                <mat-icon class="section-icon">description</mat-icon>
+                <h2>Información del Ticket</h2>
+            </div>
+            <div class="section-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label class="info-label">Título:</label>
+                        <span class="info-value">{{datos()?.titulo}}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Estado:</label>
+                        <span class="info-value status-badge" [class]="getEstadoClass(datos()?.estado)">
+                            {{datos()?.estado}}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Prioridad:</label>
+                        <span class="info-value priority-badge" [class]="getPrioridadClass(datos()?.prioridad)">
+                            {{datos()?.prioridad}}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Fecha Creación:</label>
+                        <span class="info-value">{{formatDate(datos()?.fechaCreacion)}}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Fecha Cierre:</label>
+                        <span class="info-value">{{datos()?.fechaCierre ? formatDate(datos()?.fechaCierre) :
+                            'Pendiente'}}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Días de Resolución:</label>
+                        <span class="info-value">{{datos()?.diasResolucion}} día</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Descripción del Problema -->
+        <section class="document-section">
+            <div class="section-header">
+                <h2>Descripción del Problema</h2>
+            </div>
+            <div class="section-content">
+                <div class="description-content">
+                    <p>{{datos()?.descripcion}}</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Información del Solicitante -->
+        <section class="document-section">
+            <div class="section-header">
+                <mat-icon class="section-icon">person</mat-icon>
+                <h2>Información del Solicitante</h2>
+            </div>
+            <div class="section-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label class="info-label">Nombre:</label>
+                        <span class="info-value">{{datos()?.usuarioSolicitante?.nombreCompleto}}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Correo:</label>
+                        <span class="info-value">{{datos()?.usuarioSolicitante?.correo}}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Categoría:</label>
+                        <span class="info-value">{{datos()?.categoria}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- (SLA) -->
+        <section class="document-section">
+            <div class="section-header">
+                <mat-icon class="section-icon">schedule</mat-icon>
+                <h2>Tiempos de Servicio (SLA)</h2>
+            </div>
+            <div class="section-content">
+                <div class="sla-grid">
+                    <!-- SLA de Respuesta -->
+                    <div class="sla-item">
+                        <h3 class="sla-title">Tiempo de Respuesta</h3>
+                        <div class="sla-details">
+                            <div class="sla-info">
+                                <label>Respuesta:</label>
+                                <span>{{formatTime(datos()?.sla?.tiempoRespuesta)}}</span>
+                            </div>
+                            <div class="sla-info">
+                                <label>Fecha Límite:</label>
+                                <span>{{formatDateTime(datos()?.slaRespuesta?.fechaLimite)}}</span>
+                            </div>
+                            <div class="sla-info">
+                                <label>Fecha Real:</label>
+                                <span>{{formatDateTime(datos()?.slaRespuesta?.fechaReal)}}</span>
+                            </div>
+                            <div class="sla-info">
+                                <label>Estado:</label>
+                                <span class="sla-status" [class]="getSLAStatusClass(datos()?.slaRespuesta?.estado)">
+                                    {{datos()?.slaRespuesta?.estado}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLA de Resolución -->
+                    <div class="sla-item">
+                        <h3 class="sla-title">Tiempo de Resolución</h3>
+                        <div class="sla-details">
+                            <div class="sla-info">
+                                <label>Resolución:</label>
+                                <span>{{formatTime(datos()?.sla?.tiempoResolucion)}}</span>
+                            </div>
+                            <div class="sla-info">
+                                <label>Fecha Límite:</label>
+                                <span>{{formatDateTime(datos()?.slaResolucion?.fechaLimite)}}</span>
+
+                            </div>
+                            <div class="sla-info">
+                                <label>Fecha Real:</label>
+                                <span>{{formatDateTime(datos()?.slaResolucion?.fechaReal)}}</span>
+
+                            </div>
+                            <div class="sla-info">
+                                <label>Estado:</label>
+                                <span class="sla-status" [class]="getSLAStatusClass(datos()?.slaResolucion?.estado)">
+                                    {{datos()?.slaResolucion?.estado}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Historial del Ticket -->
+        <section class="document-section">
+            <div class="section-header">
+                <mat-icon class="section-icon">history</mat-icon>
+                <h2>Historial del Ticket</h2>
+            </div>
+            <div class="section-content">
+                <div class="timeline">
+                    @for (historia of datos()?.historial; track historia.id) {
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-state">{{historia.estado}}</span>
+                                <span class="timeline-date">{{formatDateTime(historia.fechaCambio)}}</span>
+                            </div>
+                            @if(historia.imagenes && historia.imagenes.length > 0){
+                            <div class="timeline-images">
+                                @for (imagen of historia.imagenes; track imagen.id) {
+                                <div class="image-item">
+                                    <img [src]="'http://localhost:3000/images/' + imagen.ruta"
+                                        [alt]="'Imagen ' + historia.estado" class="ticket-image">
+                                </div>
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Asignaciones -->
+        <section class="document-section">
+            <div class="section-header">
+                <mat-icon class="section-icon">assignment_ind</mat-icon>
+                <h2>Asignaciones</h2>
+            </div>
+            <div class="section-content">
+                @if(datos()?.asignaciones && datos()!.asignaciones.length > 0){
+                <div class="assignments-list">
+                    @for (asignacion of datos()?.asignaciones; track asignacion.id) {
+                    <div class="assignment-item">
+                        <div class="assignment-info">
+                            <strong>{{asignacion.tecnico}}</strong>
+                            <span class="assignment-method">{{asignacion.metodo}}</span>
+                            <!--    <span class="assignment-date">{{formatDateTime(asignacion.fechaAsignacion)}}</span> -->
+                        </div>
+                        <p class="assignment-notes" *ngIf="asignacion.observaciones">
+                            {{asignacion.observaciones}}
+                        </p>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <p class="no-data">No hay asignaciones registradas</p>
+                }
+            </div>
+        </section>
+
+        @if(datos()?.valoraciones && datos()!.valoraciones.length > 0){
+        <div class="section-divider"></div>
+
+        <!-- Valoraciones -->
+        <section class="document-section">
+            <div class="section-header">
+                <h2>Valoraciones</h2>
+            </div>
+            <div class="section-content">
+                <div class="ratings-list">
+                    @for (valoracion of datos()?.valoraciones; track $index) {
+                    <div class="rating-item">
+                        <div class="rating-header">
+                            <div class="rating-stars">
+                                @for (star of [1,2,3,4,5]; track star) {
+                                <mat-icon class="star-icon" [class.filled]="star <= valoracion.valoracion">
+                                    {{star <= valoracion.valoracion ? 'star' : 'star_border' }} </mat-icon>
+                                        }
+                            </div>
+                            <span class="rating-date">{{formatDate(valoracion.fecha)}}</span>
+                        </div>
+                        <p class="rating-comment" *ngIf="valoracion.comentario">
+                            "{{valoracion.comentario}}"
+                        </p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </section>
+        }
+    </div>
+</div>
+} @else {
+<div class="not-found">
+    <mat-card>
+        <mat-card-content class="home-card-content">
+            <mat-icon class="error-icon">error_outline</mat-icon>
+            <p class="mat-body text">Ticket no encontrado</p>
+            <button mat-raised-button color="primary" (click)="goBack()">
+                Volver a Tickets
+            </button>
+        </mat-card-content>
+    </mat-card>
+</div>
+}

@@ -1,0 +1,68 @@
+<div class="tickets-container">
+    <!-- nformación del usuario -->
+    <div class="header-section">
+        <h1 class="page-title">Mis Tickets</h1>
+        
+        <div class="user-info-section">
+            <div class="user-details">
+                <h2>{{datos().usuario?.nombre || 'Usuario'}}</h2>
+                <div class="user-meta">
+                    <span class="user-role">{{datos().usuario?.rol || 'Rol'}}</span>
+                    <span class="ticket-count">{{datos().totalTickets || 0}} tickets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de tickets -->
+    @if(datos().tickets && datos().tickets.length > 0){
+    <mat-grid-list cols="1" rowHeight="160px" gutterSize="16px">
+        @for (ticket of datos().tickets; track ticket.id) {
+        <mat-grid-tile>
+            <mat-card class="ticket-card">
+                <mat-card-header>
+                    <div class="ticket-header">
+                        <mat-card-title class="ticket-title">{{ticket.titulo}}</mat-card-title>
+                        <div class="ticket-badge" [class]="getEstadoClass(ticket.estado)">
+                            {{ticket.estado}}
+                        </div>
+                    </div>
+                </mat-card-header>
+
+                <mat-card-content class="ticket-content">
+                    <div class="ticket-info">
+                        <div class="info-item">
+                            <mat-icon class="info-icon">category</mat-icon>
+                            <span class="info-text">Categoría: {{ticket.categoria}}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <mat-icon class="info-icon">calendar_today</mat-icon>
+                            <span class="info-text">Creado: {{formatDate(ticket.fechaCreacion)}}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <mat-icon class="info-icon">person</mat-icon>
+                            <span class="info-text"> Cliente: {{ticket.usuarioCreador}}</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+
+                <mat-card-actions align="end">
+                    <button mat-button class="action-btn" (click)="detalle(ticket.id)">
+                        <mat-icon>visibility</mat-icon>
+                        Ver Detalles
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        }
+    </mat-grid-list>
+    } @else {
+    <div class="no-tickets">
+        <mat-icon class="no-data-icon">inbox</mat-icon>
+        <h3>No hay tickets disponibles</h3>
+        <p>No se encontraron tickets para mostrar</p>
+    </div>
+    }
+</div>
