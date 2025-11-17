@@ -9,7 +9,10 @@ export class TicketoRoutes {
         //http://localhost:3000/ticket/search?rol=2
         router.get('/search',controller.get)
         router.get('/:id',controller.getById)
-
+         //Crear 
+        router.post("/", controller.create);
+        //Actualizar 
+        router.put("/:id", controller.update);
         return router
     }
 }
