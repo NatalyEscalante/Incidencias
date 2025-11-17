@@ -289,20 +289,49 @@ export class ticketController {
             next(error)
         }
     }
-    //Crear 
+
     create = async (request: Request, response: Response, next: NextFunction) => {
         try {
+            const body = request.body;
 
+            const newTicket = await this.prisma.$transaction(async (prisma) => {
+                // 1. Crear el ticket
+                const ticket = await prisma.ticket.create({
+                    data: {
+                        titulo: body.titulo,
+                        descripcion: body.descripcion,
+                        usuarioId: body.usuarioId,
+                        categoriaId: body.categoriaId,
+                        estadoId: 1,
+                        prioridadId: body.prioridadId,
+                    },
+                });
+
+                // 2. Crear el primer historial con estado pendiente
+                const historial = await prisma.ticketHistorial.create({
+                    data: {
+                        ticketId: ticket.id,
+                        estado_AnteriorId: 1,
+                    },
+                });
+
+                // 3. Si hay imagen, crear la relación 
+                if (body.imagenes && body.imagenes.length > 0) {
+                    await prisma.ticketImagen.createMany({
+                        data: body.imagenes.map((imagen: string) => ({
+                            ticketHId: historial.id,
+                            ruta: imagen
+                        }))
+                    });
+                }
+
+                return ticket;
+            });
+
+            response.status(201).json(newTicket);
         } catch (error) {
+            console.error("Error creando el ticket:", error);
             next(error);
         }
-    };
-    //Actualizar 
-    update = async (request: Request, response: Response, next: NextFunction) => {
-        try {
-
-        } catch (error) {
-            next(error);
-        }
-    };
+    } 
 } 
