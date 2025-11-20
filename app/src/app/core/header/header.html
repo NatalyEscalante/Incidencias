@@ -35,17 +35,17 @@
         </button>
 
         <mat-menu #maintenanceMenu="matMenu" yPosition="below">
-            <button mat-menu-item>
-                <mat-icon>add_circle</mat-icon>
-                <span>Crear Ticket</span>
+            <button mat-menu-item [routerLink]=" ['/ticket-admin']">
+                <mat-icon style="color: white; ; font-size: 1.3rem">add_circle</mat-icon>
+                <span style="color: white">Crear Ticket</span>
             </button>
-            <button mat-menu-item>
-                <mat-icon>assignment</mat-icon>
-                <span>Asignaciones</span>
+            <button mat-menu-item [routerLink]=" ['/categoria-admin']">
+                <mat-icon style="color: white; font-size: 1.3rem">assignment</mat-icon>
+                <span style="color: white">Crear Categoria</span>
             </button>
-            <button mat-menu-item>
-                <mat-icon>build_circle</mat-icon>
-                <span>Otro Mantenimiento</span>
+            <button mat-menu-item [routerLink]=" ['/tecnico-admin']">
+                <mat-icon style="color: white; font-size: 1.3rem">person</mat-icon>
+                <span style="color: white">Crear Técnico</span>
             </button>
         </mat-menu>
     </div>

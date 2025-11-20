@@ -1,0 +1,24 @@
+2025-11-19 11:12:17.411 error: 	natye--Se produjo un error interno del servidor 
+Invalid `prisma.ticket.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:299:52
+
+  296 
+  297 const newTicket = await this.prisma.$transaction(async (prisma) => {
+  298     // 1. Crear el ticket
+→ 299     const ticket = await prisma.ticket.create({
+            data: {
+              titulo: "Prueba",
+              descripcion: "Esto es un prueba",
+              usuarioId: 1,
+              categoriaId: null,
+              estadoId: 1,
+              prioridadId: 1,
+          +   usuario: {
+          +     create: UsuarioCreateWithoutTicketsInput | UsuarioUncheckedCreateWithoutTicketsInput,
+          +     connectOrCreate: UsuarioCreateOrConnectWithoutTicketsInput,
+          +     connect: UsuarioWhereUniqueInput
+          +   }
+            }
+          })
+
+Argument `usuario` is missing.

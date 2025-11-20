@@ -66,6 +66,10 @@
     color: white !important;
 }
 
+.matMenu{
+    color: white;
+}
+
 /* Menú Móvil */
 .mobile-menu-btn {
     display: none;

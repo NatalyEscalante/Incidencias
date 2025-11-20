@@ -1,0 +1,176 @@
+<div class="mini-header" style="background-image: url('/images/image.png');">
+    <div class="header-content">
+        <h1 class="header-title">Gestión de Tickets</h1>
+        <p class="header-subtitle">Registra y administra tus incidencias</p>
+    </div>
+</div>
+
+<form [formGroup]="ticketForm" (ngSubmit)="submitTicket()" novalidate>
+    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="usuarioId" />
+
+    <div class="categoria-form-container">
+        <div class="header-section">
+            <button mat-icon-button class="back-btn" (click)="onBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1 class="page-title">Crear Ticket</h1> 
+        </div>
+
+        <!-- nformación del usuario -->
+        <div class="user-info-section">
+            <div class="user-details">
+                <h2>{{datos().usuario?.nombre || 'Usuario'}}</h2>
+                <div class="user-meta">
+                    <span class="user-role">{{datos().usuario?.rol || 'Rol'}}</span>
+                </div>
+            </div>
+        </div>
+
+        <mat-card class="form-card">
+            <mat-card-content>
+                <!-- TÍTULO Y PRIORIDAD -->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Título del Ticket</mat-label>
+                            <input matInput formControlName="titulo"
+                                placeholder="Ej: Problema con el sistema de facturación">
+                            @if(ticketForm.controls['titulo'].invalid && ticketForm.controls['titulo'].touched){
+                            <mat-error>
+                                @if(ticketForm.controls['titulo'].errors?.["required"]) {El título es requerido}
+                                @if(ticketForm.controls['titulo'].errors?.["minlength"]) {El título debe tener al menos
+                                5 caracteres}
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!-- PRIORIDAD -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Prioridad</mat-label>
+                            <mat-select formControlName="prioridadId" style="background-color: white !important;">
+                                @for (prioridad of prioridadList(); track prioridad.id) {
+                                <mat-option [value]="prioridad.id"
+                                    style="background-color: white !important; color: black !important;">
+                                    {{prioridad.prioridad}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                            @if(ticketForm.controls['prioridadId'].invalid &&
+                            ticketForm.controls['prioridadId'].touched){
+                            <mat-error>Seleccione una prioridad</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- DESCRIPCIÓN -->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Descripción</mat-label>
+                            <textarea matInput formControlName="descripcion"
+                                placeholder="Describa detalladamente el problema o incidencia..." rows="4"></textarea>
+                            @if(ticketForm.controls['descripcion'].invalid &&
+                            ticketForm.controls['descripcion'].touched){
+                            <mat-error>
+                                @if(ticketForm.controls['descripcion'].errors?.["required"]) {La descripción es
+                                requerida}
+                                @if(ticketForm.controls['descripcion'].errors?.["minlength"]) {La descripción debe tener
+                                al menos 10 caracteres}
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- ETIQUETA Y CATEGORÍA -->
+                <div class="row">
+                    <!-- ETIQUETA -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Etiqueta</mat-label>
+                            <mat-select formControlName="etiquetaId" style="background-color: white !important;">
+                                @for (etiqueta of etiquetasList(); track etiqueta.id) {
+                                <mat-option [value]="etiqueta.id"
+                                    style="background-color: white !important; color: black !important;">
+                                    {{etiqueta.nombre}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                            @if(ticketForm.controls['etiquetaId'].invalid && ticketForm.controls['etiquetaId'].touched){
+                            <mat-error>Seleccione una etiqueta</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!-- CATEGORÍA (Automática) -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Categoría Asociada</mat-label>
+                            <input matInput formControlName="categoriaNombre" readonly
+                                placeholder="Seleccione una etiqueta para ver la categoría">
+                            <mat-hint>Se asigna automáticamente según la etiqueta seleccionada</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- INFORMACIÓN AUTOMÁTICA -->
+                <div class="row">
+                    <!-- FECHA CREACIÓN -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Fecha de Creación</mat-label>
+                            <input matInput formControlName="fechaCreacion" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Estado</mat-label>
+                            <input matInput formControlName="estado" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- SUBIR IMAGEN -->
+                <div class="row">
+                    <div class="col">
+                        <div class="image-upload-section">
+                            <h3>Adjuntar Imagen (Opcional)</h3>
+                            <div class="drop_box">
+                                <input type="file" accept="image/*" (change)="selectFile($event)" #fileUpload
+                                    class="file-input" />
+                                <div class="file-upload">
+                                    @if(preview) {
+                                    <img mat-card-image height="200px" [src]="preview" alt="Imagen del ticket">
+                                    }
+                                    {{ nameImage || "No se ha subido ningún archivo todavía" }}
+                                    <button type="button" mat-mini-fab class="upload-btn" (click)="fileUpload.click()">
+                                        <mat-icon>attach_file</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-card-content>
+
+            <!-- Botones de Acción -->
+            <mat-card-actions class="button-row">
+                <button mat-button class="btn-tertiary" type="button" (click)="onReset()">
+                    <mat-icon>refresh</mat-icon>
+                    Limpiar
+                </button>
+                <button mat-raised-button class="btn-primary" type="submit">
+                    <mat-icon>save</mat-icon>
+                    Crear Ticket 
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</form>

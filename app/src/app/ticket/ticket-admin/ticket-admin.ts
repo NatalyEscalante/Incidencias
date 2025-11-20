@@ -1,15 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { TicketService } from '../../share/service/api/Ticket.service';
-import { Router } from '@angular/router';
 import { TicketModel } from '../../share/models/TicketModel';
-
+import { TicketService } from '../../share/service/api/Ticket.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
-  selector: 'app-ticket-index',
+  selector: 'app-ticket-admin',
   standalone: false,
-  templateUrl: './ticket-index.html',
-  styleUrl: './ticket-index.css'
+  templateUrl: './ticket-admin.html',
+  styleUrl: './ticket-admin.css'
 })
-export class TicketIndex {
+export class TicketAdmin {
   //Signal - Respuesta del API
   datos = signal<any>({
     usuario: null,
@@ -17,10 +16,10 @@ export class TicketIndex {
     tickets: []
   });
 
-
   constructor(
     private ticketService: TicketService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
     this.listTickets();
   }
@@ -37,12 +36,22 @@ export class TicketIndex {
     });
   }
 
-
   // Navegar al detalle de un ticket
   detalle(id: number) {
     this.router.navigate(['/ticket', id]);
   }
 
+  actualizarVideojuego(id: number) {
+    this.router.navigate(['/ticket/update', id], {
+      relativeTo: this.route,
+    });
+  }
+
+  crearVideojuego() {
+    this.router.navigate(['/ticket/create'], {
+      relativeTo: this.route,
+    });
+  }
   // Método para obtener clase del estado
   getEstadoClass(estado: string | undefined): string {
     if (!estado) {
@@ -73,4 +82,5 @@ export class TicketIndex {
       day: 'numeric'
     });
   }
+
 }

@@ -1,0 +1,62 @@
+<div class="tecnicos-container">
+    <div class="header-section">
+        <h1 class="page-title">Registra tus Tickets</h1>
+    </div>
+
+    <mat-card-subtitle>
+        <button mat-mini-fab matTooltip="Crear Ticket"
+            style="background-color: #4dbac4; color: white; border-radius: 2rem;" aria-label="Crear Ticket"
+            (click)="crearVideojuego()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-card-subtitle>
+    
+    <div class="table-container" style="margin-top: 1rem;">
+        @if(datos().tickets && datos().tickets.length > 0){
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Fecha Creación</th>
+                        <th>Estado</th>
+                        <th>Cliente</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (ticket of datos().tickets; track ticket.id) {
+                    <tr>
+                        <td>{{ticket.titulo}}</td>
+                        <td>{{ticket.categoria}}</td>
+                        <td>{{formatDate(ticket.fechaCreacion)}}</td>
+                        <td>
+                            <button class="ticket-badge" [class]="getEstadoClass(ticket.estado)" disabled>
+                                {{ticket.estado || 'No definido'}}
+                            </button>
+                        </td>
+                        <td>{{ticket.usuarioCreador}}</td>
+                        <td class="acciones-cell">
+                            <button mat-icon-button style="color:#a2adae;" matTooltip="Ver Detalles" 
+                                (click)="detalle(ticket.id)">
+                                <mat-icon>info</mat-icon>
+                            </button>
+                            <button mat-icon-button style="color:#289fa9;" matTooltip="Editar"
+                                (click)="actualizarVideojuego(ticket.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>                   
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        } @else {
+        <div class="no-data">
+            <mat-icon>inbox</mat-icon>
+            <p>No hay tickets registrados</p>
+        </div>
+        }
+    </div>
+</div>

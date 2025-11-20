@@ -1,0 +1,132 @@
+<div class="mini-header" style="background-image: url('/images/imagen2.webp');">
+    <div class="header-content">
+        <h1 class="header-title">Gestión de Técnicos</h1> 
+        <p class="header-subtitle">Administra y configura los técnicos del sistema</p> 
+    </div>
+</div>
+
+<form [formGroup]="tecnicoForm" (ngSubmit)="submitCategoria()" novalidate>
+    <input type="hidden" formControlName="id" />
+
+    <div class="categoria-form-container">
+        
+        <div class="header-section">
+            <button mat-icon-button class="back-btn" (click)="onBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1 class="page-title">{{ titleForm }} Técnico</h1>
+        </div>
+
+        <mat-card class="form-card">
+            <mat-card-content>
+                <!-- NOMBRE -->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Nombre Completo</mat-label>
+                            <input matInput formControlName="nombreCompleto" placeholder="Ej: Nataly Escalante.">
+                            @if(tecnicoForm.controls['nombreCompleto'].invalid &&
+                            tecnicoForm.controls['nombreCompleto'].touched){
+                            <mat-error>
+                                @if(tecnicoForm.controls['nombreCompleto'].errors?.["required"]) {El nombre es
+                                requerido}
+                                @if(tecnicoForm.controls['nombreCompleto'].errors?.["minlength"]) {El nombre debe tener
+                                al menos 2 caracteres}
+                                @if(tecnicoForm.controls['nombreCompleto'].errors?.["pattern"]) {
+                                El nombre solo puede contener letras y espacios
+                                }
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!--Correo -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Correo</mat-label>
+                            <input matInput formControlName="correo" placeholder="Ej: tecnico@gmail.com">
+                            @if(tecnicoForm.controls['correo'].invalid && tecnicoForm.controls['correo'].touched){
+                            <mat-error>
+                                @if(tecnicoForm.controls['correo'].errors?.["required"]) {El correo es requerido}
+                                @if(tecnicoForm.controls['correo'].errors?.["email"] ||
+                                tecnicoForm.controls['correo'].errors?.["pattern"]) {
+                                El formato del correo no es válido. Ejemplo: ejemplo@gmail.com
+                                }
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!--Carga -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Carga Trabajo</mat-label>
+                            <input matInput formControlName="cargaTrabajo" readonly>
+                            @if(tecnicoForm.controls['cargaTrabajo'].invalid &&
+                            tecnicoForm.controls['cargaTrabajo'].touched){
+                            <mat-error>
+                                @if(tecnicoForm.controls['cargaTrabajo'].errors?.["required"]) {La carga de trabajo es
+                                requerido}
+                            </mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- ESPECIALIDADES Y Disponibilidad -->
+                <div class="row">
+                    <!-- ESPECIALIDADES-->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Especialidades Asociadas</mat-label>
+                            <mat-select formControlName="especialidades" multiple>
+                                @for (especialidad of especialidadesList(); track especialidad.id) {
+                                <mat-option [value]="especialidad.id" style="background-color: white !important;">
+                                    {{especialidad.nombre}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                            @if(tecnicoForm.controls['especialidades'].invalid &&
+                            tecnicoForm.controls['especialidades'].touched){
+                            <mat-error>Seleccione al menos una especialidad</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Disponibilidad -->
+                    <div class="col">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Estado de Disponibilidad</mat-label>
+                            <mat-select formControlName="estado_DisponibilidadId"
+                                style="background-color: white !important;">
+                                @for (estado of estadoList(); track estado.id) {
+                                <mat-option [value]="estado.id"
+                                    style="background-color: white !important; color: black !important;">
+                                    {{estado.estado}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                            @if(tecnicoForm.controls['estado_DisponibilidadId'].invalid &&
+                            tecnicoForm.controls['estado_DisponibilidadId'].touched){
+                            <mat-error>Seleccione un estado válido</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </mat-card-content>
+
+            <!-- Botones de Acción -->
+            <mat-card-actions class="button-row">
+                <button mat-button class="btn-tertiary" type="button" (click)="onReset()">
+                    <mat-icon>refresh</mat-icon>
+                    Limpiar
+                </button>
+                <button mat-raised-button class="btn-primary" type="submit">
+                    <mat-icon>save</mat-icon>
+                    {{ isCreate ? 'Crear' : 'Actualizar' }} Técnico
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</form>
