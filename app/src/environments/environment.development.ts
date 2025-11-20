@@ -3,4 +3,9 @@ export const environment = {
     endPointCategoria: 'categoria',
     endPointTicket: 'ticket',
     endPointTecnico: 'tecnicos',
+    endPointEspecialidad: 'especialidad',
+    endPointEtiqueta: 'etiqueta',
+    endPointSLA: 'sla',
+    endPointEstado: 'disponibilidad',
+    endPointPrioridad: 'prioridad'
 };

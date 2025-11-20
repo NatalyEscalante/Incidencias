@@ -1,0 +1,51 @@
+<div class="categoria-container">
+    <mat-card-subtitle>
+        <button mat-mini-fab matTooltip="Crear Videojuego"
+            style="background-color: #4dbac4; color: white; border-radius: 2rem;" aria-label="Crear Videojuego"
+            (click)="crearVideojuego()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-card-subtitle>
+    <div class="table-container" style="margin-top: 1rem;">
+        @if(datos().length > 0){
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Tiempo Resolución</th>
+                        <th>Tiempo Respuesta</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of datos(); track item.id) {
+                    <tr>
+                        <td>{{item.nombre}}</td>
+                        <td>{{formatTime(item.sla.tiempoResolucion)}}</td>
+                        <td>{{formatTime(item.sla.tiempoRespuesta)}}</td>
+
+                        <td class="acciones-cell">
+                            <button mat-icon-button style="color:#a2adae;" matTooltip="Ver Detalles"
+                                (click)="detalle(item.id)">
+                                <mat-icon>info</mat-icon>
+                            </button>
+                            <button mat-icon-button style="color:#289fa9;" matTooltip="Ver Detalles"
+                                (click)="actualizarVideojuego(item.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        } @else {
+        <div class="no-data">
+            <mat-icon>group_off</mat-icon>
+            <p>No hay técnicos registrados</p>
+        </div>
+        }
+    </div>
+</div>

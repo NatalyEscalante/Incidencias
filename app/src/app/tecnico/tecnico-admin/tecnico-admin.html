@@ -1,8 +1,18 @@
+
 <div class="tecnicos-container">
+    
     <div class="header-section">
-        <h1 class="page-title">Listado de Técnicos</h1>
+        <h1 class="page-title">Mantenimiento de Técnicos</h1>
     </div>
-    <div class="table-container">
+
+    <mat-card-subtitle>
+        <button mat-mini-fab matTooltip="Crear Videojuego"
+            style="background-color: #4dbac4; color: white; border-radius: 2rem;" aria-label="Crear Videojuego"
+            (click)="crearVideojuego()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-card-subtitle>
+    <div class="table-container" style="margin-top: 1rem;">
         @if(datos().length > 0){
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -12,7 +22,7 @@
                         <th>Rol</th>
                         <th>Activo</th>
                         <th>Disponibildad</th>
-                        <th>Acciones</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,29 +30,30 @@
                     <tr>
                         <td>{{item.nombreCompleto}}</td>
                         <td>{{item?.rol?.nombre}}</td>
-
+                        
                         <td>
                             @if(item.activo) {
-                            <span class="activo-text">Sí</span>
+                                <span class="activo-text">Sí</span>
                             } @else {
-                            <span class="inactivo-text">No</span>
+                                <span class="inactivo-text">No</span>
                             }
                         </td>
 
                         <td>
-                            <button class="btn btn-sm estado-btn" [class]="getEstadoClass(item.estado?.estado)"
-                                disabled>
+                            <button class="btn btn-sm estado-btn" [class]="getEstadoClass(item.estado?.estado)" disabled>
                                 {{item.estado?.estado || 'No definido'}}
                             </button>
                         </td>
 
                         <td class="acciones-cell">
-                            <button mat-icon-button style="color:#1c8390;" matTooltip="Ver Detalles"
-                                (click)="detalle(item.id)">
-                                <mat-icon>visibility</mat-icon>
+                            <button mat-icon-button style="color:#a2adae;" matTooltip="Ver Detalles" (click)="detalle(item.id)">
+                                <mat-icon>info</mat-icon>
                             </button>
-
-                        </td>
+                            <button mat-icon-button style="color:#289fa9;" matTooltip="Ver Detalles"
+                                (click)="actualizarVideojuego(item.id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>                   
                     </tr>
                     }
                 </tbody>

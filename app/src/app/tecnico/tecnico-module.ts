@@ -11,11 +11,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { TecnicoAdmin } from './tecnico-admin/tecnico-admin';
+import { TecnicoForm } from './tecnico-form/tecnico-form';
+
+//Imports forms
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input'; 
+import { MatSelectModule } from '@angular/material/select'; 
 
 @NgModule({
   declarations: [
     TecnicoIndex,
-    TecnicoDetail
+    TecnicoDetail,
+    TecnicoAdmin,
+    TecnicoForm
   ],
   imports: [
     CommonModule,
@@ -24,7 +34,11 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule, 
+    ReactiveFormsModule
   ]
 })
 export class TecnicoModule { }
