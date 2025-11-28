@@ -6,6 +6,8 @@ import path from 'path'
 import { ErrorMiddleware } from './middleware/error.middleware';
 import { AppRoutes } from './routes/routes';
 
+import "./config/passport"
+
 const rootDir = __dirname;
 
 const app: Express = express()

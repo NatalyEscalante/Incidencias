@@ -8,6 +8,8 @@ import { EtiquetaRoutes } from './etiqueta.routes';
 import { SlaRoutes } from './sla.routes';
 import { EstadoRoutes } from './estado.routes';
 import { PrioridadRoutes } from './prioridad.routes';
+import { UserRoutes } from './user.routes';
+import { AsignacionRoutes } from './asignacion.routes';
 export class AppRoutes {
     static get routes(): Router {
         const router = Router();
@@ -22,6 +24,8 @@ export class AppRoutes {
         router.use('/disponibilidad', EstadoRoutes.routes),
         router.use('/prioridad', PrioridadRoutes.routes),
         router.use("/file/", ImageRoutes.routes);
+        router.use("/usuario", UserRoutes.routes);
+        router.use("/asignacion", AsignacionRoutes.routes);
         return router;
     }
 }
