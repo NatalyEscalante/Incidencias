@@ -23,7 +23,7 @@ passport.use(
       try {
         const user = await prisma.usuario.findUnique({
           where: { correo },
-
+          
         });
         if (!user)
           return done(null, false, { message: "Usuario no registrado" });

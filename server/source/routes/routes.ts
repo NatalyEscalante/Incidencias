@@ -10,6 +10,7 @@ import { EstadoRoutes } from './estado.routes';
 import { PrioridadRoutes } from './prioridad.routes';
 import { UserRoutes } from './user.routes';
 import { AsignacionRoutes } from './asignacion.routes';
+import { ValoracionRoutes } from './valoracion.routes';
 export class AppRoutes {
     static get routes(): Router {
         const router = Router();
@@ -26,6 +27,7 @@ export class AppRoutes {
         router.use("/file/", ImageRoutes.routes);
         router.use("/usuario", UserRoutes.routes);
         router.use("/asignacion", AsignacionRoutes.routes);
+        router.use("/valoracion", ValoracionRoutes.routes);
         return router;
     }
 }

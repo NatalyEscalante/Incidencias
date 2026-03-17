@@ -7,5 +7,10 @@ export const environment = {
     endPointEtiqueta: 'etiqueta',
     endPointSLA: 'sla',
     endPointEstado: 'disponibilidad',
-    endPointPrioridad: 'prioridad'
+    endPointPrioridad: 'prioridad',
+    endPointAsignacion: 'asignacion',
+    endPointUser:'usuario',
+    endPointRol:'rol',
+    endPointValoracion:'valoracion',
+    
 };

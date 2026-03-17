@@ -211,4 +211,5 @@ export class AsignacionIndex {
       day: 'numeric'
     });
   }
+  
 }

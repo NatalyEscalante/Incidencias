@@ -5,6 +5,14 @@
             <mat-icon>arrow_back</mat-icon>
         </button>
         <h1 class="page-title">Detalle del Ticket</h1>
+        <!-- Botón para valorar (solo si cumple las condiciones) -->
+        @if (mostrarFormularioValoracion()) {
+        <button mat-raised-button color="primary" class="valorar-btn" (click)="abrirValoracionDialog()">
+            <mat-icon>star</mat-icon>
+            Valorar Ticket
+        </button>
+        }
+
     </div>
 
     <div class="ticket-document">
@@ -263,5 +271,79 @@
             </button>
         </mat-card-content>
     </mat-card>
+</div>
+}
+
+<!-- Diálogo para valoración -->
+@if (showValoracionDialog) {
+<div class="dialog-overlay" (click)="cerrarValoracionDialog()">
+    <div class="dialog-content" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+            <h3>Valorar Ticket</h3>
+            <button mat-icon-button (click)="cerrarValoracionDialog()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="dialog-body">
+            <form [formGroup]="valoracionForm" (ngSubmit)="enviarValoracion()">
+                <!-- Campo oculto para ticketId -->
+                <input type="hidden" formControlName="ticketId">
+
+                <!-- Sistema de estrellas -->
+                <div class="rating-section">
+                    <label>Califica el servicio recibido:</label>
+                    <div class="star-rating">
+                        @for (star of [1,2,3,4,5]; track star) {
+                        <button type="button" class="star-button" (click)="seleccionarEstrellas(star)">
+                            @if (star <= selectedStars) { <mat-icon class="star-filled">star</mat-icon>
+                                } @else {
+                                <mat-icon class="star-empty">star_border</mat-icon>
+                                }
+                        </button>
+                        }
+                    </div>
+                    <div class="rating-text">
+                        Selecciona una calificación
+                    </div>
+                    @if (valoracionForm.get('valoracion')?.invalid && valoracionForm.get('valoracion')?.touched) {
+                    <mat-error class="small-error">La calificación es requerida</mat-error>
+                    }
+                </div>
+
+                <!-- Comentario -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Comentario (opcional)</mat-label>
+                    <textarea matInput formControlName="comentario"
+                        placeholder="Comparte tu experiencia con el servicio recibido..." rows="4"></textarea>
+                    @if (valoracionForm.get('comentario')?.invalid && valoracionForm.get('comentario')?.touched) {
+                    <mat-error class="small-error">
+                        @if (valoracionForm.get('comentario')?.errors?.['minlength']) {
+                        Mínimo 5 caracteres
+                        }
+                        @if (valoracionForm.get('comentario')?.errors?.['maxlength']) {
+                        Máximo 500 caracteres
+                        }
+                    </mat-error>
+                    }
+                </mat-form-field>
+
+                <!-- Botones del formulario -->
+                <div class="dialog-actions">
+                    <button mat-button type="button" (click)="cerrarValoracionDialog()">
+                        Cancelar
+                    </button>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="loadingValoracion || valoracionForm.invalid || selectedStars === 0">
+                        @if (loadingValoracion) {
+                        Enviando...
+                        } @else {
+                        Enviar Valoración
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 }

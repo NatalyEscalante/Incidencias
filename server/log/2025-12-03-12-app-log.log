@@ -1,0 +1,396 @@
+2025-12-03 12:18:01.073 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:08.701 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:09.811 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:12.026 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:13.389 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:14.295 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:18:17.902 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:06.821 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 2
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:14.621 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 6
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:15.449 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 6
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:16.162 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 6
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:33.637 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 6
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:35.793 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 6
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:57.591 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:20:58.332 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:21:56.301 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:21:57.517 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.
+2025-12-03 12:21:58.725 error: 	natye--Se produjo un error interno del servidor 
+Invalid `this.prisma.ticket.findUnique()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:503:49
+
+  500     return response.status(404).json({ error: "Usuario no encontrado" });
+  501 }
+  502 
+→ 503 const ticket = await this.prisma.ticket.findUnique({
+        where: {
+      +   id: Int
+        },
+        include: {
+          estadoTicket: true,
+          asignaciones: {
+            where: {
+              usuarioId: 1
+            }
+          }
+        }
+      })
+
+Argument `id` is missing.

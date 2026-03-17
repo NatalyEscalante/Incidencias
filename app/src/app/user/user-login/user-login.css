@@ -1,0 +1,252 @@
+
+/* Contenedor principal */
+.login-page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header con imagen */
+.login-header {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2F8F9D; 
+}
+
+.login-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(47, 143, 157, 0.9), rgba(40, 159, 169, 0.8));
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #F8F9FA;
+}
+
+.header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 0 10px 20px;
+    letter-spacing: 1px;
+    color:#00424a;
+}
+
+.header-subtitle {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Contenido del login */
+.login-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-color: #f8f9fa;
+}
+
+/* Tarjeta de login */
+.login-card {
+    width: 100%;
+    max-width: 500px;
+    background: #f8f9fa;
+    border: none;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Logo section */
+.logo-section {
+    text-align: center;
+    padding: 2rem 2rem 1rem;
+}
+
+.logo-image {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.welcome-text {
+    color: #00424a;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 20px 40px;
+}
+
+/* Estructura del formulario */
+mat-card-content {
+    padding: 0 2rem !important;
+}
+
+.row {
+    margin-bottom: 1.5rem;
+}
+
+.col {
+    padding: 0;
+}
+
+/* Campos del formulario - Diseño plano */
+.full-width {
+    width: 100%;
+}
+
+/* Quitar bordes redondeados excesivos */
+.mat-mdc-text-field-wrapper {
+    border-radius: 20px !important;
+}
+
+.mat-mdc-form-field-outline {
+    border-radius: 6px !important;
+}
+
+/* Focus state para inputs */
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline-thick {
+    color: #2F8F9D !important;
+}
+
+/* Labels */
+.mat-mdc-form-field-label {
+    color: #666 !important;
+    font-weight: 400;
+}
+
+/* Input text */
+.mat-mdc-input-element {
+    color: #333;
+    padding: 0 0.5rem !important;
+}
+
+/* Botones de acción */
+mat-card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem !important;
+    margin: 0 !important;
+}
+
+/* Botón primario*/
+.mat-mdc-raised-button.mat-primary {
+    background-color: #289fa9 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 0 2rem;
+    height: 42px;
+    font-weight: 500;
+}
+
+.mat-mdc-raised-button.mat-primary:hover:not([disabled]) {
+    background-color: #289fa9 !important;
+}
+
+.mat-mdc-raised-button.mat-primary:disabled {
+    background-color: #cccccc !important;
+    color: #666 !important;
+}
+
+/* Botón cancelar */
+.mat-mdc-stroked-button.mat-warn {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+    border-radius: 6px !important;
+    padding: 0 1.5rem;
+    height: 42px;
+}
+
+.mat-mdc-stroked-button.mat-warn:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-header {
+        height: 160px;
+    }
+    
+    .header-title {
+        font-size: 2rem;
+    }
+    
+    .header-subtitle {
+        font-size: 1rem;
+    }
+    
+    .login-card {
+        margin: -40px 1rem 0;
+        max-width: 100%;
+    }
+    
+    .logo-image {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .welcome-text {
+        font-size: 1.3rem;
+    }
+    
+    mat-card-content {
+        padding: 0 1.5rem !important;
+    }
+    
+    mat-card-actions {
+        padding: 1.5rem 1.5rem !important;
+    }
+    
+    .register-section {
+        padding: 1rem 1.5rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-header {
+        height: 140px;
+    }
+    
+    .header-title {
+        font-size: 1.8rem;
+    }
+    
+    .login-card {
+        padding: 0;
+    }
+    
+    .logo-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    mat-card-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .mat-mdc-raised-button.mat-primary,
+    .mat-mdc-stroked-button.mat-warn {
+        width: 100%;
+    }
+}

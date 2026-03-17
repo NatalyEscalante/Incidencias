@@ -1,0 +1,200 @@
+<div class="manual-container">
+    <!-- Header section -->
+    <div class="header-section">
+        <button mat-icon-button class="btn-back" (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="page-title">Asignación Manual</h1>
+        <span class="current-date">{{ currentDate | date:'dd/MM/yyyy' }}</span>
+    </div>
+
+    <!-- Sección de Tickets Pendientes -->
+    <div *ngIf="!showTecnicosTable()" class="section">
+        <div class="section-header">
+            <h2>Tickets Pendientes</h2>
+        </div>
+
+        <div *ngIf="loading()" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando tickets...</p>
+        </div>
+
+        <div *ngIf="!loading() && ticketsPendientes().length > 0" class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Prioridad</th>
+                        <th>Especialidades</th>
+                        <th>Fecha</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of ticketsPendientes()">
+                        <td class="ticket-title">{{ticket.titulo}}</td>
+                        <td>{{ticket.categoria.nombre}}</td>
+                        <td>
+                            <span class="priority-badge" [ngClass]="getPrioridadClass(ticket.prioridad.prioridad)">
+                                {{ticket.prioridad.prioridad}}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="especialidades">
+                                <span *ngFor="let esp of ticket.categoria.especialidades" class="especialidad-tag">
+                                    {{esp.nombre}}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="fecha">{{formatDate(ticket.createdAt)}}</td>
+                        <td>
+                            <button class="btn-select" (click)="seleccionarTicket(ticket.id)">
+                                Seleccionar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="!loading() && ticketsPendientes().length === 0" class="empty-state">
+            <div class="empty-icon">✓</div>
+            <h3>No hay tickets pendientes</h3>
+            <p>Todos los tickets han sido asignados</p>
+        </div>
+    </div>
+
+    <!-- Sección de Técnicos Disponibles -->
+    <div *ngIf="showTecnicosTable() && selectedTicket" class="section">
+        <!-- Información del ticket seleccionado -->
+        <div class="selected-ticket">
+            <div class="selected-header">
+                <button mat-icon-button class="btn-back" (click)="volverATickets()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <div class="ticket-info">
+                    <h2>Ticket: {{selectedTicket.titulo}}</h2>
+                    <div class="ticket-details">
+                        <div class="detail">
+                            <span class="label">Categoría:</span>
+                            <span class="value">{{selectedTicket.categoria.nombre}}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Prioridad:</span>
+                            <span class="priority-badge"
+                                [ngClass]="getPrioridadClass(selectedTicket.prioridad.prioridad)">
+                                {{selectedTicket.prioridad.prioridad}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de técnicos -->
+        <div *ngIf="filteredTecnicos.length > 0" class="table-container">
+            <h3 class="table-title">Técnicos Disponibles</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="60">Seleccionar</th>
+                        <th>Nombre</th>
+                        <th>Especialidades</th>
+                        <th width="120">Estado</th>
+                        <th width="150">Carga Trabajo</th>
+                        <th width="120">Coincidencias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tecnico of filteredTecnicos" [class.selected]="selectedTecnicoId === tecnico.id">
+                        <td class="radio-cell">
+                            <input type="radio" name="tecnicoSeleccionado" [value]="tecnico.id"
+                                [checked]="selectedTecnicoId === tecnico.id"
+                                (change)="seleccionarTecnicoParaAsignar(tecnico.id)">
+                        </td>
+                        <td>
+                            <div class="tecnico-name">{{tecnico.nombreCompleto}}</div>
+                            <div *ngIf="isTecnicoIdeal(tecnico)" class="ideal-tag">Ideal</div>
+                        </td>
+                        <td>
+                            <div class="especialidades">
+                                <span *ngFor="let esp of tecnico.especialidades" class="especialidad-tag">
+                                    {{esp.nombre}}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge" [ngClass]="getEstadoClass(tecnico.estado?.estado)">
+                                {{tecnico.estado?.estado || 'N/A'}}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="carga-text">{{tecnico.carga_Actual_Trabajo}}</div>
+
+                        </td>
+                        <td>
+                            <div class="coincidencias">
+                                <span *ngIf="getEspecialidadesCoincidentes(tecnico).length > 0" class="coincide-count">
+                                    {{getEspecialidadesCoincidentes(tecnico).length}}
+                                </span>
+                                <span *ngIf="getEspecialidadesCoincidentes(tecnico).length === 0" class="no-coincide">
+                                    -
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mensaje si no hay técnicos -->
+        <div *ngIf="filteredTecnicos.length === 0" class="empty-state">
+            <div class="empty-icon">!</div>
+            <h3>No hay técnicos disponibles</h3>
+            <p>No se encontraron técnicos con las especialidades requeridas</p>
+        </div>
+
+        <!-- Formulario de justificación -->
+        <div *ngIf="filteredTecnicos.length > 0" class="justificacion-section">
+            <h3>Justificación de Asignación Manual</h3>
+
+            <form [formGroup]="asignacionForm">
+                <div class="form-group">
+                    <label for="justificacion">Describa la razón de la asignación manual:</label>
+                    <textarea id="justificacion" formControlName="justificacion" rows="2"
+                        placeholder="Ingrese la justificación..."></textarea>
+
+                    <div *ngIf="asignacionForm.get('justificacion')?.invalid && asignacionForm.get('justificacion')?.touched"
+                        class="form-errors">
+                        <div *ngIf="asignacionForm.get('justificacion')?.errors?.['required']">
+                            La justificación es requerida
+                        </div>
+                        <div *ngIf="asignacionForm.get('justificacion')?.errors?.['minlength']">
+                            Mínimo 10 caracteres
+                        </div>
+                        <div *ngIf="asignacionForm.get('justificacion')?.errors?.['maxlength']">
+                            Máximo 500 caracteres
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+                <button class="btn-cancel" (click)="volverATickets()" [disabled]="loading()">
+                    Cancelar
+                </button>
+                <button class="btn-assign" (click)="crearAsignacionManual()"
+                    [disabled]="loading() || !selectedTecnicoId || asignacionForm.invalid">
+                    <span *ngIf="!loading()">Asignar Ticket</span>
+                    <span *ngIf="loading()">Asignando...</span>
+                </button>
+            </div>
+
+            <div *ngIf="!selectedTecnicoId" class="selection-warning">
+                Debe seleccionar un técnico para continuar
+            </div>
+        </div>
+    </div>
+</div>
