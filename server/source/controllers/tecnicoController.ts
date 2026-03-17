@@ -19,6 +19,7 @@ export class tecnicoController {
                 select: {
                     id: true,
                     nombreCompleto: true,
+                    carga_Actual_Trabajo: true,
                     rol: {
                         select: {
                             nombre: true
@@ -27,6 +28,13 @@ export class tecnicoController {
                     estado: {
                         select: {
                             estado: true
+                        }
+                    },
+
+                    especialidades: {
+                        select: {
+                            nombre: true,
+                            id: true,
                         }
                     },
                     activo: true

@@ -1,0 +1,74 @@
+<div class="login-page-container">
+    <div class="login-content">
+        <mat-card class="login-card">
+            <div class="logo-section">
+                <img src="/images/Logo.png" alt="Logo" class="logo-image">
+                <h2 class="welcome-text">Bienvenido de nuevo</h2>
+            </div>
+
+            <!-- Formulario-->
+            <form [formGroup]="formulario" (ngSubmit)="submitForm()" novalidate>
+                <mat-card-content>
+                    <!-- Correo electrónico -->
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Correo electrónico</mat-label>
+                                <input matInput type="email" formControlName="correo" placeholder="ejemplo@correo.com">
+
+                                @if (formulario.get('correo')?.invalid &&
+                                (formulario.get('correo')?.dirty || formulario.get('correo')?.touched)) {
+
+                                @if (formulario.get('correo')?.errors?.['required']) {
+                                <mat-error>El correo es obligatorio</mat-error>
+                                }
+                                @if (formulario.get('correo')?.errors?.['email']) {
+                                <mat-error>Formato de correo inválido</mat-error>
+                                }
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Contraseña</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+                                    placeholder="Ingrese su contraseña">
+
+                                <button mat-icon-button matSuffix (click)="hide = !hide"
+                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                                </button>
+
+                                @if (formulario.get('password')?.invalid &&
+                                (formulario.get('password')?.dirty || formulario.get('password')?.touched)) {
+
+                                @if (formulario.get('password')?.errors?.['required']) {
+                                <mat-error>La contraseña es obligatoria</mat-error>
+                                }
+                                @if (formulario.get('password')?.errors?.['minlength']) {
+                                <mat-error>Mínimo 6 caracteres</mat-error>
+                                }
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <button mat-flat-button color="primary" style="background-color: #289fa9;" type="submit" [disabled]="formulario.invalid">
+                        Ingresar
+                    </button>
+
+                    <button mat-stroked-button color="warn" style="color: #289fa9;" type="button" (click)="onReset()">
+                        Cancelar
+                    </button>
+                </mat-card-actions>
+
+            </form>
+        </mat-card>
+    </div>
+</div>

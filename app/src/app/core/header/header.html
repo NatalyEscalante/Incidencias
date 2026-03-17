@@ -12,9 +12,9 @@
             Inicio
         </a>
 
-        <a mat-button [routerLink]=" ['/categoria']" routerLinkActive="active-link" class="nav-link" >
+        <a mat-button [routerLink]=" ['/categoria']" routerLinkActive="active-link" class="nav-link">
             Categorias
-        </a> 
+        </a>
 
         <a mat-button [routerLink]=" ['/tecnico']" routerLinkActive="active-link" class="nav-link">
             Técnicos
@@ -25,12 +25,13 @@
         </a>
 
         <a mat-button [routerLink]=" ['/asignacion']" routerLinkActive="active-link" class="nav-link">
-            Asignacion
+            Calendario
         </a>
 
         <!-- Maintenances -->
+        @if(isAdmin() || isUser()) {
         <button mat-button [matMenuTriggerFor]="maintenanceMenu" class="nav-link">
-            Maintenances
+            Maintenimientos
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
 
@@ -39,6 +40,7 @@
                 <mat-icon style="color: white; ; font-size: 1.3rem">add_circle</mat-icon>
                 <span style="color: white">Crear Ticket</span>
             </button>
+            @if(isAdmin()) {
             <button mat-menu-item [routerLink]=" ['/categoria-admin']">
                 <mat-icon style="color: white; font-size: 1.3rem">assignment</mat-icon>
                 <span style="color: white">Crear Categoria</span>
@@ -47,7 +49,13 @@
                 <mat-icon style="color: white; font-size: 1.3rem">person</mat-icon>
                 <span style="color: white">Crear Técnico</span>
             </button>
+            <button mat-menu-item [routerLink]=" ['/automatico']">
+                <mat-icon style="color: white; font-size: 1.3rem">assignment</mat-icon>
+                <span style="color: white">Asignar Ticket</span>
+            </button>
+        }
         </mat-menu>
+        }
     </div>
 
     <!-- Spacer -->
@@ -98,22 +106,27 @@
 
     <!--usuario -->
     <div class="user-section">
-
-        <span class="small-text user-email">email</span>
-
+        <!-- Usuario -->
+        @if(isAuthenticated()) {
+        <span class="small-text user-email">{{ currentUser()?.correo }}</span>
+        }
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
             <mat-icon>person</mat-icon>
         </button>
 
         <mat-menu #userMenu="matMenu">
-            <button mat-menu-item>
+            <!-- No autenticado mostrar login-->
+            @if(!isAuthenticated()) {
+            <button mat-menu-item (click)="login()">
                 <mat-icon>login</mat-icon>
-                <span>Login</span>
+                <span>Iniciar Sesión</span>
             </button>
-            <button mat-menu-item>
+            } @else {
+            <button mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
-                <span>Logout</span>
+                <span>Cerrar Sesión</span>
             </button>
+            }
         </mat-menu>
     </div>
 </mat-toolbar>

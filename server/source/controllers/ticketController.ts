@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/custom.error";
 import { PrismaClient } from "../../generated/prisma";
+import { especialidades } from "../../prisma/seeds/especialidades";
 
 export class ticketController {
     prisma = new PrismaClient();
@@ -93,6 +94,31 @@ export class ticketController {
             next(error);
         }
     };
+
+    // Lista de Tickets pendientes sin asignar
+    getTicketsPendientes = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+
+            const ticketsPendientes = await this.prisma.ticket.findMany({
+                where: {
+                    estadoTicket: { estado: "Pendiente" },
+                    asignaciones: { none: {} }
+                },
+                include: {
+                    usuario: { select: { id: true, nombreCompleto: true, correo: true } },
+                    categoria: { include: { sla: true, especialidades: true } },
+                    prioridad: true,
+                    estadoTicket: true,
+                }
+            });
+            response.json(ticketsPendientes);
+
+        } catch (error) {
+            next(error);
+        }
+    };
+
+
     //Obtener por Id 
     getById = async (
         request: Request,
@@ -333,5 +359,187 @@ export class ticketController {
             console.error("Error creando el ticket:", error);
             next(error);
         }
-    } 
+    };
+
+    cambiarEstado = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const ticketId = parseInt(req.params.id);
+            const { nuevoEstado, observaciones, imagenes = [] } = req.body;
+
+            // Validaciones básicas
+            if (!nuevoEstado) {
+                return res.status(400).json({
+                    success: false,
+                    error: "El nuevo estado es requerido"
+                });
+            }
+
+            // 1. Obtener el ticket
+            const ticket = await this.prisma.ticket.findUnique({
+                where: { id: ticketId },
+                include: {
+                    estadoTicket: true,
+                    asignaciones: {
+                        include: {
+                            usuario: {
+                                select: {
+                                    id: true,
+                                    nombreCompleto: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!ticket) {
+                return res.status(404).json({
+                    success: false,
+                    error: "Ticket no encontrado"
+                });
+            }
+
+            // 2. Verificar que el ticket esté asignado
+            if (ticket.estadoTicket.estado === "Pendiente") {
+                return res.status(400).json({
+                    success: false,
+                    error: "El ticket debe estar asignado antes de cambiar su estado"
+                });
+            }
+
+            // 3. Encontrar el ID del nuevo estado
+            const estadoNuevo = await this.prisma.estadoTicket.findFirst({
+                where: { estado: nuevoEstado }
+            });
+
+            if (!estadoNuevo) {
+                return res.status(400).json({
+                    success: false,
+                    error: "Estado no válido en la base de datos"
+                });
+            }
+
+            const estadoActual = ticket.estadoTicket.estado.trim(); 
+
+            const resultado = await this.prisma.$transaction(async (prisma) => {
+                // Actualizar ticket
+                const datosActualizacion: any = {
+                    estadoId: estadoNuevo.id
+                };
+
+                if (nuevoEstado === "Cerrado") {
+                    datosActualizacion.fechaCierre = new Date();
+                }
+
+                const ticketActualizado = await prisma.ticket.update({
+                    where: { id: ticketId },
+                    data: datosActualizacion
+                });
+
+                // Crear historial
+                const historial = await prisma.ticketHistorial.create({
+                    data: {
+                        ticketId: ticketId,
+                        estado_AnteriorId: estadoNuevo.id,
+                    }
+                });
+
+                // Guardar imágenes si hay
+                if (imagenes.length > 0) {
+                    await prisma.ticketImagen.createMany({
+                        data: imagenes.map((ruta: string) => ({
+                            ticketHId: historial.id,
+                            ruta: ruta
+                        }))
+                    });
+                }
+
+                return { ticket: ticketActualizado, historial };
+            });
+
+            res.json({
+                success: true,
+                message: `Ticket #${ticketId} actualizado de "${estadoActual}" a "${nuevoEstado}"`,
+                data: resultado
+            });
+
+        } catch (error) {
+
+            res.status(500).json({
+                success: false,
+                error: "Error interno del servidor al cambiar estado",
+            });
+        }
+    };
+
+    // Metodo para obtenr estados
+    getSiguienteEstado = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const ticketId = parseInt(req.params.id);
+
+            if (!ticketId || isNaN(ticketId)) {
+                return res.status(400).json({
+                    success: false,
+                    error: "ID de ticket inválido"
+                });
+            }
+
+            // 1. Obtener el ticket con su estado
+            const ticket = await this.prisma.ticket.findUnique({
+                where: { id: ticketId },
+                include: { estadoTicket: true }
+            });
+
+            if (!ticket) {
+                return res.status(404).json({
+                    success: false,
+                    error: "Ticket no encontrado"
+                });
+            }
+
+            // 2. Determinar el siguiente estado según el estado actual
+            const estadoActual = ticket.estadoTicket.estado.trim();
+            let siguienteEstado = "";
+            let puedeCambiar = true;
+
+            switch (estadoActual) {
+                case "Asignado":
+                    siguienteEstado = "En Proceso";
+                    break;
+                case "En Proceso":
+                    siguienteEstado = "Resuelto";
+                    break;
+                case "Resuelto":
+                    siguienteEstado = "Cerrado";
+                    break;
+                case "Pendiente":
+                    siguienteEstado = "Asignado";
+                    puedeCambiar = false;
+                    break;
+                case "Cerrado":
+                    siguienteEstado = "No disponible";
+                    puedeCambiar = false;
+                    break;
+                default:
+                    siguienteEstado = "No disponible";
+                    puedeCambiar = false;
+                    break;
+            }
+
+            res.json({
+                success: true,
+                data: {
+                    estadoActual,
+                    siguienteEstado,
+                    puedeCambiar
+                }
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                error: "Error interno del servidor",
+            });
+        }
+    };
 } 

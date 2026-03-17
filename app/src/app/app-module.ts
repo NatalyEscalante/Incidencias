@@ -10,9 +10,11 @@ import { CategoriaModule } from './categoria/categoria-module';
 import { TecnicoModule } from './tecnico/tecnico-module';
 import { TicketModule } from './ticket/ticket-module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {  NgxSonnerToaster } from 'ngx-sonner'
+import { NgxSonnerToaster } from 'ngx-sonner'
 import { HttpErrorInterceptorService } from './share/interceptor/http-error-interceptor.service';
 import { AsignacionModule } from './asignacion/asignacion-module';
+import { HttpAuthInterceptorService } from './share/interceptor/http-auth-interceptor.service';
+import { UserModule } from './user/user-module';
 
 @NgModule({
   declarations: [
@@ -28,15 +30,21 @@ import { AsignacionModule } from './asignacion/asignacion-module';
     TecnicoModule,
     TicketModule,
     AsignacionModule,
+    UserModule,
     AppRoutingModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptorsFromDi()),
     {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: HttpErrorInterceptorService, 
-      multi:true
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptorService,
+      multi: true
     }
   ],
   bootstrap: [App]

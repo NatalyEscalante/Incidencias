@@ -1,0 +1,151 @@
+<div class="tecnicos-container">
+    <!-- Header section -->
+    <div class="header-section">
+        <h1 class="page-title">Asignación Automática</h1>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="action-buttons" *ngIf="datos()">
+        <button class="btn btn-primary" (click)="ejecutarAsignacionAutomatica()" [disabled]="loading()">
+            {{loading() ? 'Procesando...' : 'Asignar Automáticamente'}}
+        </button>
+        <button class="btn btn-secondary" (click)="irAAsignacionManual()">
+            Asignar Manual
+        </button>
+    </div>
+
+    <!-- Sección de Reglas en Tabla -->
+    <div *ngIf="datos() && datos()!.data.reglas.length > 0" class="section-container">
+        <div class="section-header">
+            <mat-icon class="section-icon" style="color: #2C3E50; font-size: 1.3rem">rule</mat-icon>
+            <h2 class="section-title">Reglas de Asignación Configuradas</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Prioridad</th>
+                        <th>Especialidad</th>
+                        <th>Carga Máxima</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let regla of datos()!.data.reglas">
+                        <td>{{regla.nombre}}</td>
+                        <td>{{regla.categoria}}</td>
+                        <td>
+                            <button class="btn btn-sm estado-btn" [class]="getPrioridadClass(regla.prioridad)" disabled>
+                                {{regla.prioridad}}
+                            </button>
+                        </td>
+                        <td>{{regla.especialidad}}</td>
+                        <td>{{regla.cargaMaxima || 'Sin límite'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Sección de Tickets -->
+    <div *ngIf="datos() && datos()!.data.tickets.length > 0" class="section-container">
+        <div class="section-header">
+        <mat-icon class="section-icon" style="color: #2C3E50; font-size: 1.3rem">info</mat-icon>
+        <h2 class="section-title"> Tickets Pendientes</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Prioridad</th>
+                        <th>Fecha Creación</th>
+                        <th>SLA Restante</th>
+                        <th>Puntaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of datos()!.data.tickets">
+                        <td>{{ticket.titulo}}</td>
+                        <td>{{ticket.categoria}}</td>
+                        <td>
+                            <button class="btn btn-sm estado-btn" [class]="getPrioridadClass(ticket.prioridad)"
+                                disabled>
+                                {{ticket.prioridad}}
+                            </button>
+                        </td>
+                        <td>
+                            <div>{{formatDate(ticket.fechaCreacion)}}</div>
+                            <small class="text-muted">{{formatTime(ticket.fechaCreacion)}}</small>
+                        </td>
+                        <td>{{ticket.tiempoRestanteSLA.toFixed(2)}} horas</td>
+                        <td><strong>{{ticket.puntaje}}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Sección de Asignaciones-->
+    <div *ngIf="datos() && datos()!.data.asignacionesPropuestas.length > 0" class="section-container">
+        <div class="section-header">
+        <mat-icon class="section-icon" style="color: #2C3E50; font-size: 1.3rem">assignment</mat-icon>
+        <h2 class="section-title">Asignaciones Propuestas</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th>Ticket</th>
+                        <th>Técnico</th>
+                        <th>Categoría</th>
+                        <th>Especialidad</th>
+                        <th>Disponibilidad</th>
+                        <th>Regla</th>
+                        <th>Puntaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let propuesta of datos()!.data.asignacionesPropuestas">
+                        <td>
+                            <strong>{{propuesta.ticket}}</strong>
+                        </td>
+                        <td>{{propuesta.tecnicoAsignado || 'Sin asignar'}}</td>
+                        <td>{{propuesta.categoria}}</td>
+                        <td>{{propuesta.especialidad || 'N/A'}}</td>
+                        <td>
+                            <button class="btn btn-sm estado-btn" [class]="getEstadoClass(propuesta.disponibilidad)"
+                                disabled>
+                                {{propuesta.disponibilidad}}
+                            </button>
+                            <div *ngIf="propuesta.mensaje" class="small text-muted">{{propuesta.mensaje}}</div>
+                        </td>
+                        <td><strong>{{propuesta.reglaAplicada}}</strong></td>
+                        <td><strong>{{propuesta.puntaje}}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mensajes de estado -->
+    <div *ngIf="datos() && datos()!.data.tickets.length === 0 && !loading()" class="no-data">
+        <mat-icon class="no-data-icon">check_circle</mat-icon>
+        <h3>No hay tickets pendientes</h3>
+        <p>No se encontraron tickets por asignar</p>
+    </div>
+
+    <div *ngIf="datos() && datos()!.data.reglas.length === 0 && !loading()" class="no-data">
+        <mat-icon class="no-data-icon">warning</mat-icon>
+        <h3>Sin reglas configuradas</h3>
+        <p>No hay reglas de asignación en el sistema</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="loading-state">
+        <div class="spinner"></div>
+        <p>Procesando asignación...</p>
+    </div>
+</div>

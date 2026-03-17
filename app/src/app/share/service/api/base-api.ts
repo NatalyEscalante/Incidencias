@@ -20,7 +20,7 @@ export class BaseAPI<T extends BaseEntity> {
   urlAPI: string = environment.apiURL;
 
   constructor(
-    private http: HttpClient,
+    protected http: HttpClient,
     /**
      * Nombre del endpoint o recurso (por ejemplo: 'productos', 'usuarios', 'ordenes')
      * Se inyecta al crear una instancia concreta del servicio.
@@ -62,6 +62,22 @@ export class BaseAPI<T extends BaseEntity> {
   getCustom<R>(id: number): Observable<R> {
     return this.http.get<R>(`${this.urlAPI}/${this.endpoint}/${id}`);
   }
+  getGeneric<R>(): Observable<R> {
+    return this.http.get<R>(`${this.urlAPI}/${this.endpoint}`);
+  }
+
+ /* postMethod<R>(data: any = {}): Observable<R> {
+    return this.http.post<R>(`${this.urlAPI}/${this.endpoint}`, data);
+}*/
+
+postMethod<R>(data: any = {}, action?: string): Observable<R> {
+    const url = action 
+        ? `${this.urlAPI}/${this.endpoint}/${action}`
+        : `${this.urlAPI}/${this.endpoint}`;
+    
+    return this.http.post<R>(url, data);
+}
+
   /**
      * Obtiene un elemento por su ID
      * Ejemplo: GET http://localhost:3000/productos/5

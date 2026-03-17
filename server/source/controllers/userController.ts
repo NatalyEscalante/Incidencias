@@ -54,61 +54,76 @@ export class UserController {
   };
 
   login = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate(
-    "local",
-    { session: false },
-    async (  
-      err: Error | null,
-      user: Express.User | false | null,
-      info: { message?: string }
-    ) => {
-      if (err) return next(err);
-      if (!user) {
-        return res
-          .status(401)
-          .json({ success: false, message: info.message });
-      }
-
-      try {
-        // Obtén el usuario 
-        const getUser = await prisma.usuario.findUnique({
-          where: { id: (user as any).id },
-          include: { rol: true }
-        });
-
-        if (!getUser) {
-          return res.status(401).json({ 
-            success: false, 
-            message: "Usuario no encontrado" 
-          });
+    passport.authenticate(
+      "local",
+      { session: false },
+      async (
+        err: Error | null,
+        user: Express.User | false | null,
+        info: { message?: string }
+      ) => {
+        if (err) return next(err);
+        if (!user) {
+          return res
+            .status(401)
+            .json({ success: false, message: info.message });
         }
 
-        const token = generateToken({
-          id: getUser.id,
-          correo: getUser.correo,
-          rol: getUser.rol  
-        });
-        
-        return res.json({
-          success: true,
-          message: "Inicio de sesión exitoso",
-          token,
-        });
-      } catch (error) {
-        next(error);
+        try {
+          // Obtén el usuario 
+          const getUser = await prisma.usuario.findUnique({
+            where: { id: (user as any).id },
+            include: { rol: true }
+          });
+
+          if (!getUser) {
+            return res.status(401).json({
+              success: false,
+              message: "Usuario no encontrado"
+            });
+          }
+
+          const token = generateToken({
+            id: getUser.id,
+            correo: getUser.correo,
+            rol: getUser.rol
+          });
+
+          return res.json({
+            success: true,
+            message: "Inicio de sesión exitoso",
+            token,
+          });
+        } catch (error) {
+          next(error);
+        }
       }
-    }
-  )(req, res, next);
-};
-  
-//Get the user that are login
-  userAuth = (req: Request, res: Response, next: NextFunction) => {
+    )(req, res, next);
+  };
+
+  //Get the user that are login
+  userAuth = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const usuario = req.user as Usuario;
-      res.json(usuario);
+      // Obtener el usuario completo 
+      const userWithRol = await prisma.usuario.findUnique({
+        where: { id: usuario.id },
+        include: {
+          rol: true
+        }
+      });
+
+      if (!userWithRol) {
+        return res.status(404).json({
+          success: false,
+          message: "Usuario no encontrado"
+        });
+      }
+      res.json(userWithRol);
 
     } catch (error) {
       next(error);
     }
   };
+
 }

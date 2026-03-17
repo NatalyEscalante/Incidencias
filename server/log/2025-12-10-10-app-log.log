@@ -1,0 +1,96 @@
+2025-12-10 10:23:50.952 error: 	natye--Se produjo un error interno del servidor 
+Invalid `prisma.ticket.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:325:52
+
+  322 
+  323 const newTicket = await this.prisma.$transaction(async (prisma) => {
+  324     // 1. Crear el ticket
+→ 325     const ticket = await prisma.ticket.create({
+            data: {
+              titulo: "Problema con la Base de dados del sistema",
+              descripcion: "No funciona la base de datos del sitema de los clientes para citas",
+              usuarioId: undefined,
+              categoriaId: 2,
+              estadoId: 1,
+              prioridadId: 2,
+          +   usuario: {
+          +     create: UsuarioCreateWithoutTicketsInput | UsuarioUncheckedCreateWithoutTicketsInput,
+          +     connectOrCreate: UsuarioCreateOrConnectWithoutTicketsInput,
+          +     connect: UsuarioWhereUniqueInput
+          +   }
+            }
+          })
+
+Argument `usuario` is missing.
+2025-12-10 10:23:57.559 error: 	natye--Se produjo un error interno del servidor 
+Invalid `prisma.ticket.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:325:52
+
+  322 
+  323 const newTicket = await this.prisma.$transaction(async (prisma) => {
+  324     // 1. Crear el ticket
+→ 325     const ticket = await prisma.ticket.create({
+            data: {
+              titulo: "Problema con la Base de dados del sistema",
+              descripcion: "No funciona la base de datos del sitema de los clientes para citas",
+              usuarioId: undefined,
+              categoriaId: 2,
+              estadoId: 1,
+              prioridadId: 2,
+          +   usuario: {
+          +     create: UsuarioCreateWithoutTicketsInput | UsuarioUncheckedCreateWithoutTicketsInput,
+          +     connectOrCreate: UsuarioCreateOrConnectWithoutTicketsInput,
+          +     connect: UsuarioWhereUniqueInput
+          +   }
+            }
+          })
+
+Argument `usuario` is missing.
+2025-12-10 10:24:53.318 error: 	natye--Se produjo un error interno del servidor 
+Invalid `prisma.ticket.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:325:52
+
+  322 
+  323 const newTicket = await this.prisma.$transaction(async (prisma) => {
+  324     // 1. Crear el ticket
+→ 325     const ticket = await prisma.ticket.create({
+            data: {
+              titulo: "Problema con la BD",
+              descripcion: "No funciona el sitema de datos de clientes para citas",
+              usuarioId: undefined,
+              categoriaId: 2,
+              estadoId: 1,
+              prioridadId: 2,
+          +   usuario: {
+          +     create: UsuarioCreateWithoutTicketsInput | UsuarioUncheckedCreateWithoutTicketsInput,
+          +     connectOrCreate: UsuarioCreateOrConnectWithoutTicketsInput,
+          +     connect: UsuarioWhereUniqueInput
+          +   }
+            }
+          })
+
+Argument `usuario` is missing.
+2025-12-10 10:25:57.942 error: 	natye--Se produjo un error interno del servidor 
+Invalid `prisma.ticket.create()` invocation in
+C:\Users\natye\Documents\Utn\Software Libre\Incidencias\server\source\controllers\ticketController.ts:325:52
+
+  322 
+  323 const newTicket = await this.prisma.$transaction(async (prisma) => {
+  324     // 1. Crear el ticket
+→ 325     const ticket = await prisma.ticket.create({
+            data: {
+              titulo: "Prueba BD",
+              descripcion: "Sistema de BD de cita",
+              usuarioId: undefined,
+              categoriaId: 2,
+              estadoId: 1,
+              prioridadId: 2,
+          +   usuario: {
+          +     create: UsuarioCreateWithoutTicketsInput | UsuarioUncheckedCreateWithoutTicketsInput,
+          +     connectOrCreate: UsuarioCreateOrConnectWithoutTicketsInput,
+          +     connect: UsuarioWhereUniqueInput
+          +   }
+            }
+          })
+
+Argument `usuario` is missing.

@@ -306,39 +306,61 @@ export class asignacionController {
     };
 
     createManual = async (request: Request, response: Response, next: NextFunction) => {
-        try {
-            const body = request.body;
+    try {
+        const body = request.body;
 
-            const asignar = await this.prisma.$transaction(async (prisma) => {
-                //1. Crear la asignacion de forma Manual 
-                const manual = await this.prisma.asignacion.create({
-                    data: {
-                        metodo: "Manual",
-                        ticketId: body.ticketId,
-                        observaciones: body.observaciones,
-                        usuarioId: body.usuarioId,
-                    }
-                });
+        console.log('Body recibido para asignación manual:', body);
 
-                //2. Actualizar el estado del ticket a asignado
-                const ticketUpdate = await prisma.ticket.update({
-                    where: { id: body.ticketHId },
-                    data: { estadoId: 2 }
-                });
-
-                //3. Crear el nuevo estado del historial
-                await prisma.ticketHistorial.create({
-                    data: {
-                        ticketId: body.idTicket,
-                        estado_AnteriorId: 2,
-                    },
-                });
-
+        const resultado = await this.prisma.$transaction(async (prisma) => {
+            // 1. Crear la asignación de forma Manual 
+            const asignacion = await prisma.asignacion.create({
+                data: {
+                    metodo: "Manual",
+                    ticketId: body.ticketId,
+                    observaciones: body.observaciones,
+                    usuarioId: body.usuarioId,
+                }
             });
 
-        } catch (error) {
-            console.error("Error al asignar de forma manual:", error);
-            next(error);
-        }
+            // 2. Actualizar el estado del ticket a asignado
+            const ticketUpdate = await prisma.ticket.update({
+                where: { id: body.ticketId },
+                data: { 
+                    estadoId: 2, // Estado: "Asignado"
+                    updatedAt: new Date()
+                }
+            });
+
+            // 3. Crear historial del ticket
+            await prisma.ticketHistorial.create({
+                data: {
+                    ticketId: body.ticketId,
+                    estado_AnteriorId: 2, // Estado: "Asignado"
+                },
+            });
+
+            // 4. Actualizar carga del técnico (incrementar en 1)
+            await prisma.usuario.update({
+                where: { id: body.usuarioId },
+                data: {
+                    carga_Actual_Trabajo: {
+                        increment: 1
+                    }
+                }
+            });
+
+            return asignacion;
+        });
+
+        response.status(201).json({
+            success: true,
+            message: "Asignación manual creada exitosamente",
+            data: resultado
+        });
+
+    } catch (error) {
+        console.error("Error al asignar de forma manual:", error);
+        next(error);
     }
+}
 }

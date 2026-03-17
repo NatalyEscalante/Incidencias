@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, inject, computed  } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../share/service/app/notification.service';
@@ -11,6 +11,7 @@ import { PrioridadService } from '../../share/service/api/prioridad.service';
 import { CategoriaService } from '../../share/service/api/categoria.service';
 import { CategoriaModel } from '../../share/models/CategoriaModel';
 import { FileUploadService } from '../../share/service/api/file-upload.service';
+import { AuthenticationService } from '../../share/service/app/authentication.service';
 
 @Component({
   selector: 'app-ticket-form',
@@ -26,6 +27,20 @@ export class TicketForm implements OnInit, OnDestroy {
     totalTickets: 0,
     tickets: []
   });
+
+  private authService = inject(AuthenticationService);
+
+  /** Signals */
+  readonly isAuthenticated = this.authService.authenticated;
+  readonly currentUser = this.authService.usuario;
+
+  // obtener el ID del usuario logueado
+  readonly userId = computed(() => {
+    const user = this.currentUser();
+    return user?.id || null;
+  });
+
+
   // Subject para controlar la destrucción de suscripciones y evitar memory leaks
   private destroy$ = new Subject<void>();
 
@@ -46,7 +61,7 @@ export class TicketForm implements OnInit, OnDestroy {
   nameImage = 'image-not-found.jpg';
 
   // Usuario 
-  private usuarioId = 3; 
+  private usuarioId = this.userId(); 
 
   constructor(
     private fb: FormBuilder,
@@ -64,9 +79,19 @@ export class TicketForm implements OnInit, OnDestroy {
 
 //Listar todos los Tickets del API
   listTickets() {
-    const usuarioRol = this.usuarioId;
+    const usuarioId = this.userId();
 
-    this.ticketService.getTicketsByRol(usuarioRol).subscribe({
+    if (!usuarioId) {
+      console.log('Usuario no autenticado o ID no disponible');
+      // redirigir al login si no está autenticado
+      if (!this.isAuthenticated()) {
+        this.router.navigate(['/usuario/login']);
+      }
+      return;
+    }
+
+
+    this.ticketService.getTicketsByRol(usuarioId).subscribe({
       next: (respuesta: any) => {
         console.log('Respuesta completa:', respuesta);
         this.datos.set(respuesta);

@@ -146,9 +146,7 @@
         <mat-grid-list cols="1" rowHeight="160px" gutterSize="16px">
             @for (ticket of datos().tickets; track ticket.id) {
             <mat-grid-tile>
-                <mat-card class="ticket-card">
-
-                </mat-card>
+                <mat-card class="ticket-card"></mat-card>
             </mat-grid-tile>
             }
         </mat-grid-list>
@@ -157,9 +155,9 @@
 
     @else if (!datos().tickets || datos().tickets.length === 0) {
     <div class="no-tickets">
-        <mat-icon class="no-data-icon">inbox</mat-icon>
+        
         <h3>No hay asignaciones disponibles</h3>
         <p>No se encontraron tickets para mostrar en el tablero</p>
     </div>
     }
-</div>
+</div>  
